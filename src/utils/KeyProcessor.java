@@ -9,7 +9,7 @@ import javafx.scene.input.KeyEvent;
 import java.util.HashSet;
 import java.util.Set;
 
-public class KeyProcesser implements EventHandler<KeyEvent> {
+public class KeyProcessor implements EventHandler<KeyEvent> {
 
     public static Set<KeyCode> pressedKeys = new HashSet<>();
 

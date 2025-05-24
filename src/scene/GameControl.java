@@ -4,17 +4,13 @@ import Director.Director;
 import entity.Background;
 import entity.Bullet;
 import entity.Jet;
-import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import utils.FrameUpdater;
-import utils.KeyProcesser;
-
-import java.util.Set;
+import utils.KeyProcessor;
 
 public class GameControl { //主遊戲畫面
 
@@ -23,7 +19,7 @@ public class GameControl { //主遊戲畫面
     public GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
     Background background ;
     FrameUpdater frameUpdater = new FrameUpdater();
-    KeyProcesser keyProcesser = new KeyProcesser();
+    KeyProcessor keyProcesser = new KeyProcessor();
     Jet Player = null;
     Bullet bullet ;
 
