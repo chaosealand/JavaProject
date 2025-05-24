@@ -11,7 +11,7 @@ import java.io.IOException;
 public class Director {
 
 
-    public static final double WIDTH = 960, HEIGHT = 640; //遊戲視窗的長寬
+    public static final double WIDTH = 1920, HEIGHT = 1080; //遊戲視窗的長寬
 
     private Stage stage ;
     private static final Director Instance = new Director();
