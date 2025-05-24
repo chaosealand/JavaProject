@@ -3,6 +3,7 @@ package scene;
 import Director.Director;
 import entity.Background;
 import entity.Bullet;
+import entity.Enemy;
 import entity.Jet;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -11,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import utils.FrameUpdater;
 import utils.KeyProcessor;
+import utils.Team;
 
 public class GameControl { //主遊戲畫面
 
@@ -30,7 +32,7 @@ public class GameControl { //主遊戲畫面
     public void initialize (Stage stage) {
         this.stage = stage ;
         AnchorPane root = new AnchorPane(canvas);
-        Player = new Jet(Jet.jetImage,460,480,60,72,this);
+        Player = new Jet(Jet.jetImage,460,480,60,72,this, Team.friend);
         Player.render();
         stage.getScene().setRoot(root);
         background = new Background(this);
@@ -42,7 +44,6 @@ public class GameControl { //主遊戲畫面
 
     public void RenderAll (){
         Player.move();
-
         background.render();
         Player.render();
     }
