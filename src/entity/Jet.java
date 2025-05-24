@@ -1,12 +1,22 @@
 package entity;
 
+import Director.Director;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import scene.GameControl;
 import utils.KeyProcessor;
 import utils.MouseTracker;
+import utils.Team;
 
-public class Jet extends Entity{
+import java.security.PublicKey;
+
+public class Jet extends EntityRole{
+
+    @Override
+    public boolean ImpactCheck(Entity e){
+        return false;
+    }
 
     public static Image jetImage = new Image("/Image/PlayerJet.png");
     public static double PlayerWidth = 60 , PlayerHeight = 72 ;
@@ -22,8 +32,8 @@ public class Jet extends Entity{
     private float Ax = 0.1F;
     private float Ay = 0.1F;
 
-    public Jet(Image image, double x, double y, double width, double height, GameControl GC) {
-        super(image, x, y, width, height, GC);
+    public Jet(Image image, double x, double y, double width, double height, GameControl GC, Team team) {
+        super(image, x, y, width, height, GC, team);
     }
 
     public void move (){
@@ -45,15 +55,16 @@ public class Jet extends Entity{
         else if ((Vy+Ay)<=-Jet.SpeedLimit) Vy = -Jet.SpeedLimit;
         else Vy += Ay ;
 
-        x += Vx ;
-        y += Vy ;
-
+        if(x<-0.5*PlayerWidth) x = -0.5*PlayerWidth; //左邊界
+        if(x>=-0.5*PlayerWidth && x<=Director.WIDTH-width+0.5*PlayerWidth) x+=Vx;
+        if(y<-0.5*PlayerHeight) y = -0.5*PlayerHeight;//上邊界
+        if(y>=-0.5*PlayerHeight && y<=Director.HEIGHT-height+0.5*PlayerHeight) y+=Vy;
+        if(x>Director.WIDTH-width+0.5*PlayerWidth) x = Director.WIDTH-width+0.5*PlayerWidth;//右邊界
+        if(y>Director.HEIGHT-height+0.5*PlayerHeight) y = Director.HEIGHT-height+0.5*PlayerHeight;//下邊界
     }
+
     public void ToCursor (){
         x = MouseTracker.CursorX;
         y = MouseTracker.CursorY;
     }
-
-
-
 }
