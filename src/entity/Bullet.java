@@ -1,4 +1,4 @@
 package entity;
 
-public class Bullet {
+public class Bullet { //edited test
 }
