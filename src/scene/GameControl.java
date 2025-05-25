@@ -14,6 +14,9 @@ import utils.FrameUpdater;
 import utils.KeyProcessor;
 import utils.Team;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameControl { //主遊戲畫面
 
     Stage stage = new Stage();
@@ -23,11 +26,11 @@ public class GameControl { //主遊戲畫面
     FrameUpdater frameUpdater = new FrameUpdater();
     KeyProcessor keyProcesser = new KeyProcessor();
     Jet Player = null;
-    Bullet bullet ;
+    public List<Bullet> bullets1 = new ArrayList<>();
+    public List<Bullet> bullets2 = new ArrayList<>();
+
 
     public Boolean GameRunning = false ;
-
-
 
     public void initialize (Stage stage) {
         this.stage = stage ;
@@ -45,6 +48,12 @@ public class GameControl { //主遊戲畫面
     public void RenderAll (){
         Player.move();
         background.render();
+        for(Bullet b: bullets2){
+            b.render();
+        }
+        for(Bullet b: bullets1){
+            b.render();
+        }
         Player.render();
     }
 

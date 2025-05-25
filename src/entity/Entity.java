@@ -5,6 +5,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import scene.GameControl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Entity { //所有的畫面物件都是繼承於它，如:public class Tank extends Entity....
     Image image ; //實體的圖片
     double x , y , width , height ; //實體的參數
