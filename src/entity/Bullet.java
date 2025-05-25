@@ -6,16 +6,33 @@ import javafx.scene.image.Image;
 import scene.GameControl;
 import utils.Team;
 
+import java.util.List;
+
 public class Bullet extends EntityRole{
-    @Override
-    public boolean ImpactCheck(Entity e){
+
+    public boolean ImpactCheck(Enemy enemy){
+        if(enemy!= null && getContour().intersects(enemy.getContour())){
+            enemy.setAlive(false);
+            alive = false;
+            return true;
+        }
         return false;
     }
+    public void ImpactCheck(List<Enemy> enemys){
+        for(Enemy E: enemys){
+            ImpactCheck(E);
+        }
+    }
+
 
     @Override
     public void render() {
         super.render();
         Bulletmove();
+        if(!alive){
+            GC.bullets.remove(this);
+            return;
+        }
     }
 
     public static Image bulletimage = new Image("/Image/PlayerJet.png" );

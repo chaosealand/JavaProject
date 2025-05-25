@@ -4,12 +4,11 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import scene.GameControl;
 import utils.Team;
-
 import java.util.*;
-
 import java.util.HashMap;
 
 public abstract class EntityRole extends Entity{
+
     boolean alive = true;
     Team team;
     Map<String, Image> imageMap = new HashMap<>();
@@ -19,5 +18,11 @@ public abstract class EntityRole extends Entity{
         this.team = team;
     }
 
-    public abstract boolean ImpactCheck(Entity entity);
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
 }
