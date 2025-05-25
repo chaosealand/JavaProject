@@ -1,5 +1,6 @@
 package entity;
 
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import scene.GameControl;
@@ -44,5 +45,4 @@ public class Bullet extends EntityRole{
     public void Bulletmove(){
         y-=V;
     }
-
 }

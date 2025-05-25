@@ -3,8 +3,8 @@ package scene;
 import Director.Director;
 import entity.Background;
 import entity.Bullet;
-import entity.Enemy;
 import entity.Jet;
+import entity.LaserBeam;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
@@ -24,10 +24,13 @@ public class GameControl { //主遊戲畫面
     public GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
     Background background ;
     FrameUpdater frameUpdater = new FrameUpdater();
-    KeyProcessor keyProcesser = new KeyProcessor();
+
+    KeyProcessor keyProcessor = new KeyProcessor();
     Jet Player = null;
     public List<Bullet> bullets = new ArrayList<>();//子彈
     public List<Enemy> enemys = new ArrayList<>();//建立複數敵人
+     public List<LaserBeam> LaserList = new ArrayList<>();
+
 
 
     public Boolean GameRunning = false ;
@@ -39,8 +42,9 @@ public class GameControl { //主遊戲畫面
         Player.render();
         stage.getScene().setRoot(root);
         background = new Background(this);
-        stage.getScene().setOnKeyPressed(keyProcesser);
-        stage.getScene().setOnKeyReleased(keyProcesser);
+        stage.getScene().setOnKeyPressed(keyProcessor);
+        stage.getScene().setOnKeyReleased(keyProcessor);
+
         GameRunning = true ;
         frameUpdater.start();
         initEnemy();
@@ -59,6 +63,11 @@ public class GameControl { //主遊戲畫面
             enemy.render();
         }
         Player.render();
+
+        for (int i=0;i<LaserList.size();i++){
+            LaserBeam L = LaserList.get(i);
+            L.render();
+        }
     }
 
     public void initEnemy(){//初始化敵人的位置
@@ -69,8 +78,8 @@ public class GameControl { //主遊戲畫面
     }
 
     public void clear () {
-        stage.removeEventHandler(KeyEvent.KEY_PRESSED,keyProcesser);
-        stage.removeEventHandler(KeyEvent.KEY_RELEASED,keyProcesser);
+        stage.removeEventHandler(KeyEvent.KEY_PRESSED, keyProcessor);
+        stage.removeEventHandler(KeyEvent.KEY_RELEASED, keyProcessor);
         frameUpdater.stop();
         Player = null ;
     }
