@@ -1,8 +1,12 @@
 package entity;
 
 import Director.Director;
+
 import javafx.animation.PauseTransition;
 import javafx.scene.canvas.GraphicsContext;
+
+
+
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
@@ -11,7 +15,7 @@ import utils.KeyProcessor;
 import utils.MouseTracker;
 import utils.Team;
 
-import java.security.PublicKey;
+
 
 public class Jet extends EntityRole{
 
@@ -20,10 +24,12 @@ public class Jet extends EntityRole{
         return false;
     }
 
+
     public static Image jetImage = new Image("/Image/JetImage.png");
     public static Image JetImageLeft = new Image("/Image/JetImageLeft.png");
     public static Image JetImageRight = new Image("/Image/JetImageRight.png");
     public static double PlayerWidth = 120 , PlayerHeight = 144 ;
+
 
     private final static float SpeedLimit = 5 ;
     private final static float Acc = 0.6F ; //飛機加速度，影響操控性
@@ -40,6 +46,7 @@ public class Jet extends EntityRole{
     public Jet(Image image, double x, double y, double width, double height, GameControl GC, Team team) {
         super(image, x, y, width, height, GC, team);
     }
+
 
     public void move (){
         Ax = 0 ;

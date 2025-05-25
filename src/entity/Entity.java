@@ -22,6 +22,13 @@ public abstract class Entity { //所有的畫面物件都是繼承於它，如:p
         this.height = height;
         this.GC = GC;
     }
+
+    public Entity(double x, double y, GameControl GC) {
+        this.x = x;
+        this.y = y;
+        this.GC = GC;
+    }
+
     public void render(){
         GraphicsContext gc = GC.graphicsContext;
         gc.drawImage(image,x,y,width,height);
@@ -30,5 +37,13 @@ public abstract class Entity { //所有的畫面物件都是繼承於它，如:p
         return new Rectangle2D(x, y, width, height);
     }
 
+
+    public double getCenterX (){
+        return (x+width/2);
+    }
+
+    public double getCenterY (){
+        return (y+height/2);
+    }
 
 }
