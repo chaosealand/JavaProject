@@ -8,13 +8,13 @@ import scene.GameControl;
 
 
 
-public class LazerBeam extends Entity{
+public class LaserBeam extends Entity{
 
     private static final Color Alert = Color.YELLOW ;
     private static final Color Attack = Color.RED;
-    private static int LaserRemainFrame = 35;
+    private static final int LaserRemainFrame = 35;
 
-    public LazerBeam(double x, double y, GameControl GC) {
+    public LaserBeam(double x, double y, GameControl GC) {
         super(x, y, GC);
     }
 
@@ -80,8 +80,8 @@ public class LazerBeam extends Entity{
         double dy =  TargetY-y ;
         double LongestPossibleDiagonal = Math.sqrt(Director.HEIGHT*Director.HEIGHT+Director.WIDTH*Director.WIDTH);
         double TargetDistance = Math.sqrt(dx*dx+dy*dy);
-        BeamDestinationX = x + dx * ((double)LongestPossibleDiagonal/TargetDistance);
-        BeamDestinationY = y + dy * ((double)LongestPossibleDiagonal/TargetDistance);
+        BeamDestinationX = x + dx * (LongestPossibleDiagonal /TargetDistance);
+        BeamDestinationY = y + dy * (LongestPossibleDiagonal /TargetDistance);
 
     }
 

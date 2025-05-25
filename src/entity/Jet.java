@@ -19,6 +19,7 @@ public class Jet extends EntityRole{
     }
 
     public static Image jetImage = new Image("/Image/PlayerJet.png");
+
     public static double PlayerWidth = 60 , PlayerHeight = 72 ;
 
     private final static float SpeedLimit = 5 ;
@@ -35,6 +36,7 @@ public class Jet extends EntityRole{
     public Jet(Image image, double x, double y, double width, double height, GameControl GC, Team team) {
         super(image, x, y, width, height, GC, team);
     }
+
 
     public void move (){
         Ax = 0 ;
@@ -54,6 +56,8 @@ public class Jet extends EntityRole{
         if ((Vy+Ay)>=Jet.SpeedLimit) Vy = Jet.SpeedLimit;
         else if ((Vy+Ay)<=-Jet.SpeedLimit) Vy = -Jet.SpeedLimit;
         else Vy += Ay ;
+
+
 
         if(x<-0.5*PlayerWidth) x = -0.5*PlayerWidth; //左邊界
         if(x>=-0.5*PlayerWidth && x<=Director.WIDTH-width+0.5*PlayerWidth) x+=Vx;

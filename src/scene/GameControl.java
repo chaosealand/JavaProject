@@ -3,8 +3,8 @@ package scene;
 import Director.Director;
 import entity.Background;
 import entity.Bullet;
-import entity.Enemy;
 import entity.Jet;
+import entity.LaserBeam;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
@@ -14,6 +14,9 @@ import utils.FrameUpdater;
 import utils.KeyProcessor;
 import utils.Team;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameControl { //主遊戲畫面
 
     Stage stage = new Stage();
@@ -21,12 +24,12 @@ public class GameControl { //主遊戲畫面
     public GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
     Background background ;
     FrameUpdater frameUpdater = new FrameUpdater();
-    KeyProcessor keyProcesser = new KeyProcessor();
-    Jet Player = null;
+    KeyProcessor keyProcessor = new KeyProcessor();
+    public Jet Player = null;
     Bullet bullet ;
 
     public Boolean GameRunning = false ;
-
+    public List<LaserBeam> LaserList = new ArrayList<>();
 
 
     public void initialize (Stage stage) {
@@ -36,8 +39,9 @@ public class GameControl { //主遊戲畫面
         Player.render();
         stage.getScene().setRoot(root);
         background = new Background(this);
-        stage.getScene().setOnKeyPressed(keyProcesser);
-        stage.getScene().setOnKeyReleased(keyProcesser);
+        stage.getScene().setOnKeyPressed(keyProcessor);
+        stage.getScene().setOnKeyReleased(keyProcessor);
+
         GameRunning = true ;
         frameUpdater.start();
     }
@@ -46,11 +50,16 @@ public class GameControl { //主遊戲畫面
         Player.move();
         background.render();
         Player.render();
+
+        for (int i=0;i<LaserList.size();i++){
+            LaserBeam L = LaserList.get(i);
+            L.render();
+        }
     }
 
     public void clear () {
-        stage.removeEventHandler(KeyEvent.KEY_PRESSED,keyProcesser);
-        stage.removeEventHandler(KeyEvent.KEY_RELEASED,keyProcesser);
+        stage.removeEventHandler(KeyEvent.KEY_PRESSED, keyProcessor);
+        stage.removeEventHandler(KeyEvent.KEY_RELEASED, keyProcessor);
         frameUpdater.stop();
         Player = null ;
     }
