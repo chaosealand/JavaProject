@@ -5,14 +5,20 @@ import scene.GameControl;
 import utils.Team;
 
 public class Enemy extends EntityRole{
-    @Override
-    public boolean ImpactCheck(Entity e){
-        return false;
-    }
 
-    public Enemy(Image image, double x, double y, double width, double height, GameControl GC, Team team) {
-        super(image, x, y, width, height, GC, team);
-    }
     public static Image EnemyImage = new Image("/Image/PlayerJet.png");
     public static double EnemyWidth = 60 , EnemyHeight = 72 ;
+
+    public Enemy( double x, double y, GameControl GC) {
+        super(EnemyImage, x, y, EnemyWidth, EnemyHeight, GC, Team.enemy);
+    }
+
+    @Override
+    public void render() {
+        if(!alive){
+            GC.enemys.remove(this);
+            return;
+        }
+        super.render();
+    }
 }

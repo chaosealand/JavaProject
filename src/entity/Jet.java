@@ -15,10 +15,6 @@ import java.security.PublicKey;
 
 public class Jet extends EntityRole{
 
-    @Override
-    public boolean ImpactCheck(Entity e){
-        return false;
-    }
 
     public static Image jetImage = new Image("/Image/JetImage.png");
     public static Image JetImageLeft = new Image("/Image/JetImageLeft.png");
@@ -30,7 +26,7 @@ public class Jet extends EntityRole{
     private final static float Resistance = 0.01F; //阻力係數，影響飛機靜止到停止時間
 
     private long lastFireTime = 0;
-    private final long fireCooldown = 100;  //單位為毫秒
+    private final long fireCooldown = 200;  //單位為毫秒
 
     private float Vx = 0;
     private float Vy = 0;
@@ -84,9 +80,9 @@ public class Jet extends EntityRole{
         double Bullety = y+height/2;
         double Bulletx = x+width/2;
         Bullet bullet1 = new Bullet(Bulletx, Bullety, GC, team);
-        GC.bullets1.add(bullet1);
+        GC.bullets.add(bullet1);
         Bullet bullet2 = new Bullet(Bulletx-40, Bullety, GC, team);
-        GC.bullets2.add(bullet2);
+        GC.bullets.add(bullet2);
     }
 
     public void ToCursor (){

@@ -26,8 +26,8 @@ public class GameControl { //主遊戲畫面
     FrameUpdater frameUpdater = new FrameUpdater();
     KeyProcessor keyProcesser = new KeyProcessor();
     Jet Player = null;
-    public List<Bullet> bullets1 = new ArrayList<>();
-    public List<Bullet> bullets2 = new ArrayList<>();
+    public List<Bullet> bullets = new ArrayList<>();//子彈
+    public List<Enemy> enemys = new ArrayList<>();//建立複數敵人
 
 
     public Boolean GameRunning = false ;
@@ -43,18 +43,29 @@ public class GameControl { //主遊戲畫面
         stage.getScene().setOnKeyReleased(keyProcesser);
         GameRunning = true ;
         frameUpdater.start();
+        initEnemy();
     }
 
     public void RenderAll (){
         Player.move();
         background.render();
-        for(Bullet b: bullets2){
+        for(int i = 0; i < bullets.size(); i++){   //渲染子彈
+            Bullet b = bullets.get(i);
             b.render();
+            b.ImpactCheck(enemys);
         }
-        for(Bullet b: bullets1){
-            b.render();
+        for(int i = 0; i < enemys.size(); i++){
+            Enemy enemy = enemys.get(i);
+            enemy.render();
         }
         Player.render();
+    }
+
+    public void initEnemy(){//初始化敵人的位置
+        for(int i = 0; i<6; i++){
+            Enemy enemy = new Enemy(500+i*200, 400, this);
+            enemys.add(enemy);
+        }
     }
 
     public void clear () {
