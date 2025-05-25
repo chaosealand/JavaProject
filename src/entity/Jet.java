@@ -18,7 +18,9 @@ public class Jet extends EntityRole{
         return false;
     }
 
-    public static Image jetImage = new Image("/Image/PlayerJet.png");
+    public static Image jetImage = new Image("/Image/JetImage.png");
+    public static Image JetImageLeft = new Image("/Image/JetImageLeft.png");
+    public static Image JetImageRight = new Image("/Image/JetImageRight.png");
     public static double PlayerWidth = 60 , PlayerHeight = 72 ;
 
     private final static float SpeedLimit = 5 ;
@@ -39,10 +41,15 @@ public class Jet extends EntityRole{
     public void move (){
         Ax = 0 ;
         Ay = 0 ;
+
+        image = new Image("/Image/JetImage.png");
         if (KeyProcessor.pressedKeys.contains(KeyCode.W)) Ay -= Jet.Acc;
         if (KeyProcessor.pressedKeys.contains(KeyCode.S)) Ay += Jet.Acc;
         if (KeyProcessor.pressedKeys.contains(KeyCode.A)) Ax -= Jet.Acc;
         if (KeyProcessor.pressedKeys.contains(KeyCode.D)) Ax += Jet.Acc;
+
+        if (Vx>3) image = JetImageRight;
+        if (Vx<-3) image = JetImageLeft;
 
         if (Ax==0 && Vx!=0) Ax = - (Vx*Jet.Resistance);
         if (Ay==0 && Vy!=0) Ay = - (Vy*Jet.Resistance);
@@ -54,6 +61,7 @@ public class Jet extends EntityRole{
         if ((Vy+Ay)>=Jet.SpeedLimit) Vy = Jet.SpeedLimit;
         else if ((Vy+Ay)<=-Jet.SpeedLimit) Vy = -Jet.SpeedLimit;
         else Vy += Ay ;
+
 
         if(x<-0.5*PlayerWidth) x = -0.5*PlayerWidth; //左邊界
         if(x>=-0.5*PlayerWidth && x<=Director.WIDTH-width+0.5*PlayerWidth) x+=Vx;
