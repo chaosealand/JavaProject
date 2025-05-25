@@ -24,18 +24,27 @@ public class GameControl { //主遊戲畫面
     public GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
     Background background ;
     FrameUpdater frameUpdater = new FrameUpdater();
+
     KeyProcessor keyProcessor = new KeyProcessor();
     public Jet Player = null;
-    Bullet bullet ;
-
-    public Boolean GameRunning = false ;
+    public List<Bullet> bullets1 = new ArrayList<>();
+    public List<Bullet> bullets2 = new ArrayList<>();
     public List<LaserBeam> LaserList = new ArrayList<>();
 
+
+
+   
+
+
+
+
+
+    public Boolean GameRunning = false ;
 
     public void initialize (Stage stage) {
         this.stage = stage ;
         AnchorPane root = new AnchorPane(canvas);
-        Player = new Jet(Jet.jetImage,460,480,60,72,this, Team.friend);
+        Player = new Jet(Jet.jetImage,460,480,120,144,this, Team.friend);
         Player.render();
         stage.getScene().setRoot(root);
         background = new Background(this);
@@ -49,6 +58,12 @@ public class GameControl { //主遊戲畫面
     public void RenderAll (){
         Player.move();
         background.render();
+        for(Bullet b: bullets2){
+            b.render();
+        }
+        for(Bullet b: bullets1){
+            b.render();
+        }
         Player.render();
 
         for (int i=0;i<LaserList.size();i++){

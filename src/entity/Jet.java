@@ -2,8 +2,14 @@ package entity;
 
 import Director.Director;
 
+import javafx.animation.PauseTransition;
+import javafx.scene.canvas.GraphicsContext;
+
+
+
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.util.Duration;
 import scene.GameControl;
 import utils.KeyProcessor;
 import utils.MouseTracker;
@@ -18,15 +24,19 @@ public class Jet extends EntityRole{
         return false;
     }
 
-    public static Image jetImage = new Image("/Image/PlayerJet.png");
 
-    public static double PlayerWidth = 60 , PlayerHeight = 72 ;
+    public static Image jetImage = new Image("/Image/JetImage.png");
+    public static Image JetImageLeft = new Image("/Image/JetImageLeft.png");
+    public static Image JetImageRight = new Image("/Image/JetImageRight.png");
+    public static double PlayerWidth = 120 , PlayerHeight = 144 ;
+
 
     private final static float SpeedLimit = 5 ;
     private final static float Acc = 0.6F ; //飛機加速度，影響操控性
     private final static float Resistance = 0.01F; //阻力係數，影響飛機靜止到停止時間
 
-
+    private long lastFireTime = 0;
+    private final long fireCooldown = 100;  //單位為毫秒
 
     private float Vx = 0;
     private float Vy = 0;
@@ -41,10 +51,22 @@ public class Jet extends EntityRole{
     public void move (){
         Ax = 0 ;
         Ay = 0 ;
+
+        image = new Image("/Image/JetImage.png");
         if (KeyProcessor.pressedKeys.contains(KeyCode.W)) Ay -= Jet.Acc;
         if (KeyProcessor.pressedKeys.contains(KeyCode.S)) Ay += Jet.Acc;
         if (KeyProcessor.pressedKeys.contains(KeyCode.A)) Ax -= Jet.Acc;
         if (KeyProcessor.pressedKeys.contains(KeyCode.D)) Ax += Jet.Acc;
+        if (KeyProcessor.pressedKeys.contains(KeyCode.E)) {
+            long now = System.currentTimeMillis();
+            if (now - lastFireTime > fireCooldown) {
+                Fire();
+                lastFireTime = now;
+            }
+        }
+
+        if (Vx>3) image = JetImageRight;
+        if (Vx<-3) image = JetImageLeft;
 
         if (Ax==0 && Vx!=0) Ax = - (Vx*Jet.Resistance);
         if (Ay==0 && Vy!=0) Ay = - (Vy*Jet.Resistance);
@@ -58,13 +80,20 @@ public class Jet extends EntityRole{
         else Vy += Ay ;
 
 
-
         if(x<-0.5*PlayerWidth) x = -0.5*PlayerWidth; //左邊界
         if(x>=-0.5*PlayerWidth && x<=Director.WIDTH-width+0.5*PlayerWidth) x+=Vx;
         if(y<-0.5*PlayerHeight) y = -0.5*PlayerHeight;//上邊界
         if(y>=-0.5*PlayerHeight && y<=Director.HEIGHT-height+0.5*PlayerHeight) y+=Vy;
         if(x>Director.WIDTH-width+0.5*PlayerWidth) x = Director.WIDTH-width+0.5*PlayerWidth;//右邊界
         if(y>Director.HEIGHT-height+0.5*PlayerHeight) y = Director.HEIGHT-height+0.5*PlayerHeight;//下邊界
+    }
+    public void Fire(){
+        double Bullety = y+height/2;
+        double Bulletx = x+width/2;
+        Bullet bullet1 = new Bullet(Bulletx, Bullety, GC, team);
+        GC.bullets1.add(bullet1);
+        Bullet bullet2 = new Bullet(Bulletx-40, Bullety, GC, team);
+        GC.bullets2.add(bullet2);
     }
 
     public void ToCursor (){
