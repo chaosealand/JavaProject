@@ -1,7 +1,7 @@
 package entity;
 
 import Director.Director;
-import javafx.scene.canvas.GraphicsContext;
+
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import scene.GameControl;
@@ -9,7 +9,7 @@ import utils.KeyProcessor;
 import utils.MouseTracker;
 import utils.Team;
 
-import java.security.PublicKey;
+
 
 public class Jet extends EntityRole{
 
