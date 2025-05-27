@@ -1,5 +1,6 @@
 package entity;
 
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import scene.GameControl;
@@ -9,16 +10,18 @@ import java.util.List;
 
 public class Bullet extends EntityRole{
 
-    public boolean ImpactCheck(Enemy enemy){
-        if(enemy!= null && getContour().intersects(enemy.getContour())){
-            enemy.setAlive(false);
+    public boolean ImpactCheck(Jet jet){
+        if(jet!= null && getContour().intersects(jet.getContour())&&this.team!=jet.team){
+
+            jet.setAlive(false);
             alive = false;
             return true;
+
         }
         return false;
     }
-    public void ImpactCheck(List<Enemy> enemys){
-        for(Enemy E: enemys){
+    public void ImpactCheck(List<Jet> enemys){
+        for(Jet E: enemys){
             ImpactCheck(E);
         }
     }
@@ -44,5 +47,4 @@ public class Bullet extends EntityRole{
     public void Bulletmove(){
         y-=V;
     }
-
 }

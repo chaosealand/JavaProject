@@ -45,8 +45,8 @@ public class Director {
 
     public void StartGame () {
         GameControl gc1 = new GameControl();
-        gc1.initialize(stage);
         GC = gc1;
+        gc1.initialize(stage);
         stage.show();
     }
 

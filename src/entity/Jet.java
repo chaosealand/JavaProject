@@ -1,25 +1,27 @@
 package entity;
 
 import Director.Director;
-import javafx.animation.PauseTransition;
-import javafx.scene.canvas.GraphicsContext;
+
+
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.util.Duration;
 import scene.GameControl;
 import utils.KeyProcessor;
 import utils.MouseTracker;
 import utils.Team;
 
-import java.security.PublicKey;
+
 
 public class Jet extends EntityRole{
 
 
+    public static Image EnemyImage = new Image("/Image/PlayerJet.png");
     public static Image jetImage = new Image("/Image/JetImage.png");
     public static Image JetImageLeft = new Image("/Image/JetImageLeft.png");
     public static Image JetImageRight = new Image("/Image/JetImageRight.png");
+
     public static double PlayerWidth = 120 , PlayerHeight = 144 ;
+    public static double EnemyWidth = 60 , EnemyHeight = 72 ;
 
     private final static float SpeedLimit = 5 ;
     private final static float Acc = 0.6F ; //飛機加速度，影響操控性
@@ -37,7 +39,44 @@ public class Jet extends EntityRole{
         super(image, x, y, width, height, GC, team);
     }
 
-    public void move (){
+    @Override
+    public void render() {
+        if(!alive && team == Team.enemy){
+            GC.enemies.remove(this);
+            return;
+        }
+        else if ( !alive && team == Team.friend) {
+            //遊戲結束，玩家死亡
+            System.out.println("Player Died");
+        }
+        super.render();
+    }
+
+
+    public void move () {
+        if (team == Team.friend) {
+            PlayerControl();
+            BorderCheck();
+        }
+
+
+    }
+
+    public void Fire(){
+        double Bullety = y+height/2;
+        double Bulletx = x+width/2;
+        Bullet bullet1 = new Bullet(Bulletx, Bullety, GC, team);
+        GC.bullets.add(bullet1);
+        Bullet bullet2 = new Bullet(Bulletx-40, Bullety, GC, team);
+        GC.bullets.add(bullet2);
+    }
+
+    public void ToCursor (){
+        x = MouseTracker.CursorX;
+        y = MouseTracker.CursorY;
+    }
+
+    private void PlayerControl () {
         Ax = 0 ;
         Ay = 0 ;
 
@@ -67,26 +106,16 @@ public class Jet extends EntityRole{
         if ((Vy+Ay)>=Jet.SpeedLimit) Vy = Jet.SpeedLimit;
         else if ((Vy+Ay)<=-Jet.SpeedLimit) Vy = -Jet.SpeedLimit;
         else Vy += Ay ;
-
-
-        if(x<-0.5*PlayerWidth) x = -0.5*PlayerWidth; //左邊界
-        if(x>=-0.5*PlayerWidth && x<=Director.WIDTH-width+0.5*PlayerWidth) x+=Vx;
-        if(y<-0.5*PlayerHeight) y = -0.5*PlayerHeight;//上邊界
-        if(y>=-0.5*PlayerHeight && y<=Director.HEIGHT-height+0.5*PlayerHeight) y+=Vy;
-        if(x>Director.WIDTH-width+0.5*PlayerWidth) x = Director.WIDTH-width+0.5*PlayerWidth;//右邊界
-        if(y>Director.HEIGHT-height+0.5*PlayerHeight) y = Director.HEIGHT-height+0.5*PlayerHeight;//下邊界
-    }
-    public void Fire(){
-        double Bullety = y+height/2;
-        double Bulletx = x+width/2;
-        Bullet bullet1 = new Bullet(Bulletx, Bullety, GC, team);
-        GC.bullets.add(bullet1);
-        Bullet bullet2 = new Bullet(Bulletx-40, Bullety, GC, team);
-        GC.bullets.add(bullet2);
     }
 
-    public void ToCursor (){
-        x = MouseTracker.CursorX;
-        y = MouseTracker.CursorY;
+    private void BorderCheck (){ //邊界檢測
+        if(x<-0.5*width) x = -0.5*width; //左邊界
+        if(x>=-0.5*width && x<=Director.WIDTH-width+0.5*width) x+=Vx;
+        if(y<-0.5*height) y = -0.5*height;//上邊界
+        if(y>=-0.5*height && y<=Director.HEIGHT-height+0.5*height) y+=Vy;
+        if(x>Director.WIDTH-width+0.5*width) x = Director.WIDTH-width+0.5*width;//右邊界
+        if(y>Director.HEIGHT-height+0.5*height) y = Director.HEIGHT-height+0.5*height;//下邊界
     }
+
+
 }

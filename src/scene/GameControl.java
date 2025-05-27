@@ -1,10 +1,8 @@
 package scene;
 
+import Animation.SceneTransition;
 import Director.Director;
-import entity.Background;
-import entity.Bullet;
-import entity.Enemy;
-import entity.Jet;
+import entity.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
@@ -26,11 +24,15 @@ public class GameControl { //主遊戲畫面
     public GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
     Background background ;
     FrameUpdater frameUpdater = new FrameUpdater();
-    KeyProcessor keyProcesser = new KeyProcessor();
+
     MouseTracker mouseTracker = new MouseTracker();
-    Jet Player = null;
+    KeyProcessor keyProcessor = new KeyProcessor();
+    public Jet Player = null;
+
     public List<Bullet> bullets = new ArrayList<>();//子彈
-    public List<Enemy> enemys = new ArrayList<>();//建立複數敵人
+    public List<Jet> enemies = new ArrayList<>();//建立複數敵人
+    public List<LaserBeam> LaserList = new ArrayList<>();
+
 
 
     public Boolean GameRunning = false ;
@@ -40,44 +42,55 @@ public class GameControl { //主遊戲畫面
         AnchorPane root = new AnchorPane(canvas);
         Player = new Jet(Jet.jetImage,460,480,120,144,this, Team.friend);
         Player.render();
-        stage.getScene().setRoot(root);
+        //stage.getScene().setRoot(root);
         background = new Background(this);
+
         stage.getScene().setOnKeyPressed(keyProcesser);
         stage.getScene().setOnKeyReleased(keyProcesser);
         //讓 MouseTracker 正確地接收到 按下 和 放開 的事件，進而更新 leftPressed 狀態
         stage.getScene().addEventHandler(MouseEvent.MOUSE_PRESSED, mouseTracker);
         stage.getScene().addEventHandler(MouseEvent.MOUSE_RELEASED, mouseTracker);
+
         GameRunning = true ;
         frameUpdater.start();
         initEnemy();
+        SceneTransition.SceneTransition(stage.getScene(),root,1);
+
     }
 
     public void RenderAll (){
 
         Player.move();
         background.render();
+
         for(int i = 0; i < bullets.size(); i++){   //渲染子彈
             Bullet b = bullets.get(i);
             b.render();
-            b.ImpactCheck(enemys);
+            b.ImpactCheck(enemies);
         }
-        for(int i = 0; i < enemys.size(); i++){
-            Enemy enemy = enemys.get(i);
+        for(int i = 0; i < enemies.size(); i++){
+            Jet enemy = enemies.get(i);
             enemy.render();
         }
+
         Player.render();
+
+        for (int i=0;i<LaserList.size();i++){
+            LaserBeam L = LaserList.get(i);
+            L.render();
+        }
     }
 
     public void initEnemy(){//初始化敵人的位置
         for(int i = 0; i<6; i++){
-            Enemy enemy = new Enemy(500+i*200, 400, this);
-            enemys.add(enemy);
+            Jet enemy = new Jet(Jet.EnemyImage,500+i*200, 400, Jet.EnemyWidth,Jet.EnemyHeight,this,Team.enemy);
+            enemies.add(enemy);
         }
     }
 
     public void clear () {
-        stage.removeEventHandler(KeyEvent.KEY_PRESSED,keyProcesser);
-        stage.removeEventHandler(KeyEvent.KEY_RELEASED,keyProcesser);
+        stage.removeEventHandler(KeyEvent.KEY_PRESSED, keyProcessor);
+        stage.removeEventHandler(KeyEvent.KEY_RELEASED, keyProcessor);
         frameUpdater.stop();
         Player = null ;
     }
