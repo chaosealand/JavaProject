@@ -45,8 +45,8 @@ public class GameControl { //主遊戲畫面
         //stage.getScene().setRoot(root);
         background = new Background(this);
 
-        stage.getScene().setOnKeyPressed(keyProcesser);
-        stage.getScene().setOnKeyReleased(keyProcesser);
+        stage.getScene().setOnKeyPressed(keyProcessor);
+        stage.getScene().setOnKeyReleased(keyProcessor);
         //讓 MouseTracker 正確地接收到 按下 和 放開 的事件，進而更新 leftPressed 狀態
         stage.getScene().addEventHandler(MouseEvent.MOUSE_PRESSED, mouseTracker);
         stage.getScene().addEventHandler(MouseEvent.MOUSE_RELEASED, mouseTracker);
