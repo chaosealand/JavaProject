@@ -1,5 +1,6 @@
 package scene;
 
+import Animation.SceneTransition;
 import Director.Director;
 import entity.*;
 import javafx.scene.canvas.Canvas;
@@ -9,6 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import utils.FrameUpdater;
 import utils.KeyProcessor;
+import utils.MouseTracker;
 import utils.Team;
 
 import java.util.ArrayList;
@@ -21,12 +23,12 @@ public class GameControl { //主遊戲畫面
     public GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
     Background background ;
     FrameUpdater frameUpdater = new FrameUpdater();
-
+    MouseTracker mouseTracker = new MouseTracker();
     KeyProcessor keyProcessor = new KeyProcessor();
     public Jet Player = null;
     public List<Bullet> bullets = new ArrayList<>();//子彈
     public List<Enemy> enemys = new ArrayList<>();//建立複數敵人
-     public List<LaserBeam> LaserList = new ArrayList<>();
+    public List<LaserBeam> LaserList = new ArrayList<>();
 
 
 
@@ -37,7 +39,7 @@ public class GameControl { //主遊戲畫面
         AnchorPane root = new AnchorPane(canvas);
         Player = new Jet(Jet.jetImage,460,480,120,144,this, Team.friend);
         Player.render();
-        stage.getScene().setRoot(root);
+        //stage.getScene().setRoot(root);
         background = new Background(this);
         stage.getScene().setOnKeyPressed(keyProcessor);
         stage.getScene().setOnKeyReleased(keyProcessor);
@@ -45,11 +47,14 @@ public class GameControl { //主遊戲畫面
         GameRunning = true ;
         frameUpdater.start();
         initEnemy();
+        SceneTransition.SceneTransition(stage.getScene(),root,1);
+
     }
 
     public void RenderAll (){
         Player.move();
         background.render();
+
         for(int i = 0; i < bullets.size(); i++){   //渲染子彈
             Bullet b = bullets.get(i);
             b.render();
