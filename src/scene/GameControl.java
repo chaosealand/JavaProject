@@ -27,7 +27,7 @@ public class GameControl { //主遊戲畫面
     KeyProcessor keyProcessor = new KeyProcessor();
     public Jet Player = null;
     public List<Bullet> bullets = new ArrayList<>();//子彈
-    public List<Enemy> enemys = new ArrayList<>();//建立複數敵人
+    public List<Jet> enemies = new ArrayList<>();//建立複數敵人
     public List<LaserBeam> LaserList = new ArrayList<>();
 
 
@@ -58,12 +58,13 @@ public class GameControl { //主遊戲畫面
         for(int i = 0; i < bullets.size(); i++){   //渲染子彈
             Bullet b = bullets.get(i);
             b.render();
-            b.ImpactCheck(enemys);
+            b.ImpactCheck(enemies);
         }
-        for(int i = 0; i < enemys.size(); i++){
-            Enemy enemy = enemys.get(i);
+        for(int i = 0; i < enemies.size(); i++){
+            Jet enemy = enemies.get(i);
             enemy.render();
         }
+
         Player.render();
 
         for (int i=0;i<LaserList.size();i++){
@@ -74,8 +75,8 @@ public class GameControl { //主遊戲畫面
 
     public void initEnemy(){//初始化敵人的位置
         for(int i = 0; i<6; i++){
-            Enemy enemy = new Enemy(500+i*200, 400, this);
-            enemys.add(enemy);
+            Jet enemy = new Jet(Jet.EnemyImage,500+i*200, 400, Jet.EnemyWidth,Jet.EnemyHeight,this,Team.enemy);
+            enemies.add(enemy);
         }
     }
 
