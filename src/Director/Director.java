@@ -50,7 +50,4 @@ public class Director {
         stage.show();
     }
 
-
-
-
 }

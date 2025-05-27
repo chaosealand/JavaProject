@@ -85,7 +85,7 @@ public class Jet extends EntityRole{
         if (KeyProcessor.pressedKeys.contains(KeyCode.S)) Ay += Jet.Acc;
         if (KeyProcessor.pressedKeys.contains(KeyCode.A)) Ax -= Jet.Acc;
         if (KeyProcessor.pressedKeys.contains(KeyCode.D)) Ax += Jet.Acc;
-        if (KeyProcessor.pressedKeys.contains(KeyCode.E)) {
+        if (MouseTracker.leftPressed) {
             long now = System.currentTimeMillis();
             if (now - lastFireTime > fireCooldown) {
                 Fire();

@@ -6,6 +6,7 @@ import entity.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import utils.FrameUpdater;
@@ -23,9 +24,11 @@ public class GameControl { //主遊戲畫面
     public GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
     Background background ;
     FrameUpdater frameUpdater = new FrameUpdater();
+
     MouseTracker mouseTracker = new MouseTracker();
     KeyProcessor keyProcessor = new KeyProcessor();
     public Jet Player = null;
+
     public List<Bullet> bullets = new ArrayList<>();//子彈
     public List<Jet> enemies = new ArrayList<>();//建立複數敵人
     public List<LaserBeam> LaserList = new ArrayList<>();
@@ -41,8 +44,12 @@ public class GameControl { //主遊戲畫面
         Player.render();
         //stage.getScene().setRoot(root);
         background = new Background(this);
-        stage.getScene().setOnKeyPressed(keyProcessor);
-        stage.getScene().setOnKeyReleased(keyProcessor);
+
+        stage.getScene().setOnKeyPressed(keyProcesser);
+        stage.getScene().setOnKeyReleased(keyProcesser);
+        //讓 MouseTracker 正確地接收到 按下 和 放開 的事件，進而更新 leftPressed 狀態
+        stage.getScene().addEventHandler(MouseEvent.MOUSE_PRESSED, mouseTracker);
+        stage.getScene().addEventHandler(MouseEvent.MOUSE_RELEASED, mouseTracker);
 
         GameRunning = true ;
         frameUpdater.start();
@@ -52,6 +59,7 @@ public class GameControl { //主遊戲畫面
     }
 
     public void RenderAll (){
+
         Player.move();
         background.render();
 
