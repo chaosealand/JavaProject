@@ -1,10 +1,7 @@
 package scene;
 
 import Director.Director;
-import entity.Background;
-import entity.Bullet;
-import entity.Jet;
-import entity.LaserBeam;
+import entity.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
@@ -26,7 +23,7 @@ public class GameControl { //主遊戲畫面
     FrameUpdater frameUpdater = new FrameUpdater();
 
     KeyProcessor keyProcessor = new KeyProcessor();
-    Jet Player = null;
+    public Jet Player = null;
     public List<Bullet> bullets = new ArrayList<>();//子彈
     public List<Enemy> enemys = new ArrayList<>();//建立複數敵人
      public List<LaserBeam> LaserList = new ArrayList<>();
