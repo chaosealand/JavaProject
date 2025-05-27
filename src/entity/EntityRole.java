@@ -25,4 +25,8 @@ public abstract class EntityRole extends Entity{
     public void setAlive(boolean alive) {
         this.alive = alive;
     }
+
+    public Team getTeam() {
+        return team;
+    }
 }
