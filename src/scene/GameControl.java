@@ -8,10 +8,12 @@ import entity.Jet;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import utils.FrameUpdater;
 import utils.KeyProcessor;
+import utils.MouseTracker;
 import utils.Team;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ public class GameControl { //主遊戲畫面
     Background background ;
     FrameUpdater frameUpdater = new FrameUpdater();
     KeyProcessor keyProcesser = new KeyProcessor();
+    MouseTracker mouseTracker = new MouseTracker();
     Jet Player = null;
     public List<Bullet> bullets = new ArrayList<>();//子彈
     public List<Enemy> enemys = new ArrayList<>();//建立複數敵人
@@ -41,12 +44,16 @@ public class GameControl { //主遊戲畫面
         background = new Background(this);
         stage.getScene().setOnKeyPressed(keyProcesser);
         stage.getScene().setOnKeyReleased(keyProcesser);
+        //讓 MouseTracker 正確地接收到 按下 和 放開 的事件，進而更新 leftPressed 狀態
+        stage.getScene().addEventHandler(MouseEvent.MOUSE_PRESSED, mouseTracker);
+        stage.getScene().addEventHandler(MouseEvent.MOUSE_RELEASED, mouseTracker);
         GameRunning = true ;
         frameUpdater.start();
         initEnemy();
     }
 
     public void RenderAll (){
+
         Player.move();
         background.render();
         for(int i = 0; i < bullets.size(); i++){   //渲染子彈
