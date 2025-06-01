@@ -47,25 +47,46 @@ public class GameControl { //主遊戲畫面
         initEnemy();
     }
 
-    public void RenderAll (){
+    public void RenderAll () {
+        if (!GameRunning) return;
         Player.move();
         background.render();
-        for(int i = 0; i < bullets.size(); i++){   //渲染子彈
+        // 渲染子彈 + 碰撞
+        for (int i = 0; i < bullets.size(); i++) {
             Bullet b = bullets.get(i);
             b.render();
             b.ImpactCheck(enemys);
         }
-        for(int i = 0; i < enemys.size(); i++){
+        // 渲染敵人 + 撞擊玩家
+        for (int i = 0; i < enemys.size(); i++) {
             Enemy enemy = enemys.get(i);
             enemy.render();
+            // 玩家與敵人碰撞
+            if (Player.isAlive() && enemy.isAlive() &&
+                    Player.getContour().intersects(enemy.getContour())) {
+                Player.setAlive(false);
+                enemy.setAlive(false);
+                System.out.println("Player collided with enemy!");
+            }
         }
+        // 渲染玩家
         Player.render();
-
-        for (int i=0;i<LaserList.size();i++){
+        // 渲染雷射
+        for (int i = 0; i < LaserList.size(); i++) {
             LaserBeam L = LaserList.get(i);
             L.render();
         }
+        // 玩家死亡轉場
+        if (!Player.isAlive()) {
+            GameRunning = false;
+            // 使用 Platform.runLater 確保 JavaFX 主執行緒安全轉場
+            javafx.application.Platform.runLater(() -> {
+                Director.getInstance().ToGameOver(stage);
+            });
+            return;
+        }
     }
+
 
     public void initEnemy(){//初始化敵人的位置
         for(int i = 0; i<6; i++){

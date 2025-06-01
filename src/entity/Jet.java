@@ -34,10 +34,12 @@ public class Jet extends EntityRole{
     private long lastFireTime = 0;
     private final long fireCooldown = 200;  //單位為毫秒
 
+    public static final double INIT_X = 460;
+    public static final double INIT_Y = 480;
     private float Vx = 0;
     private float Vy = 0;
-    private float Ax = 0.1F;
-    private float Ay = 0.1F;
+    private float Ax = 0;
+    private float Ay = 0;
 
     public Jet(Image image, double x, double y, double width, double height, GameControl GC, Team team) {
         super(image, x, y, width, height, GC, team);

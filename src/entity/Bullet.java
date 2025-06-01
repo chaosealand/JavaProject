@@ -35,7 +35,7 @@ public class Bullet extends EntityRole{
         }
     }
 
-    public static Image bulletimage = new Image("/Image/PlayerJet.png" );
+    public static Image bulletimage = new Image("/Image/bullet.png" );
     public static double BulletWidth = 40, BulletHeight = 30;
     private float V = 8;
 
