@@ -2,10 +2,12 @@ package entity;
 
 
 import Director.Director;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import scene.GameControl;
-
+import utils.Team;
 
 
 public class LaserBeam extends Entity{
@@ -13,9 +15,12 @@ public class LaserBeam extends Entity{
     private static final Color Alert = Color.YELLOW ;
     private static final Color Attack = Color.RED;
     private static final int LaserRemainFrame = 35;
-
-    public LaserBeam(double x, double y, GameControl GC) {
+    private static Image reddot = new Image("Image/RedDot.png");
+    private Bullet bullet;
+    private Team team ;
+    public LaserBeam(double x, double y, GameControl GC , Team t) {
         super(x, y, GC);
+        team = t ;
     }
 
     int AlertInterval = 45 ; // unit : frames
@@ -49,16 +54,18 @@ public class LaserBeam extends Entity{
             logicalLine = new Line(x,y,BeamDestinationX, BeamDestinationY);
             logicalLine.setStrokeWidth(6);
             counter++;
+            bullet = new Bullet(x,y,40,Math.atan2(BeamDestinationX-x,BeamDestinationY-y)-Math.PI/2,GC,team,reddot) ;
         }
         else if (counter < AlertInterval+LaserRemainFrame) {
             GC.graphicsContext.setStroke(Attack);
             GC.graphicsContext.setLineWidth(4);
+
+
             int tmp = counter - AlertInterval;
             if (tmp <= LaserRemainFrame/2) {
                 DrawByLinePercent(x,y,BeamDestinationX,BeamDestinationY,(double)2*tmp/LaserRemainFrame);
             }
             else {
-
                 DrawByLinePercent(BeamDestinationX,BeamDestinationY,x,y,((double)2*(LaserRemainFrame-tmp))/LaserRemainFrame);
             }
 
@@ -69,6 +76,7 @@ public class LaserBeam extends Entity{
             GC.LaserList.remove(this);
         }
     }
+
     private void DrawByLinePercent(double x1,double y1,double x2,double y2,double percent){
         double dx =  x2-x1 ;
         double dy =  y2-y1 ;
@@ -86,5 +94,10 @@ public class LaserBeam extends Entity{
     }
 
     //碰撞檢測:LogicalLine
+
+    @Override
+    public Rectangle2D getContour() {
+        return super.getContour();
+    }
 }
 

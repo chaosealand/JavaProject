@@ -64,6 +64,7 @@ public class MenuController {
     @FXML
     void Play(MouseEvent event) {
         Director.getInstance().StartGame();
+
     }
 
     @FXML
@@ -74,7 +75,7 @@ public class MenuController {
         }
         if (forwardPlayTimeline == null) {
             forwardPlayTimeline = new Timeline(
-                    new KeyFrame(Duration.millis(250), e -> {
+                    new KeyFrame(Duration.millis(35), e -> {
                         imageViewPlay.setImage(new Image(getClass().getResource(playImages[currentPlayIndex]).toString()));
                         currentPlayIndex++;
                         if (currentPlayIndex >= playImages.length) {
@@ -96,7 +97,7 @@ public class MenuController {
         }
         if (backwardPlayTimeline == null) {
             backwardPlayTimeline = new Timeline(
-                    new KeyFrame(Duration.millis(250), e -> {
+                    new KeyFrame(Duration.millis(35), e -> {
                         imageViewPlay.setImage(new Image(getClass().getResource(playImages[currentPlayIndex]).toString()));
                         currentPlayIndex--;
                         if (currentPlayIndex < 0) {
@@ -116,9 +117,10 @@ public class MenuController {
         if (backwardExitTimeline != null && backwardExitTimeline.getStatus() == Animation.Status.RUNNING) {
             backwardExitTimeline.stop();
         }
+
         if (forwardExitTimeline == null) {
             forwardExitTimeline = new Timeline(
-                    new KeyFrame(Duration.millis(250), e -> {
+                    new KeyFrame(Duration.millis(35), e -> {
                         imageViewExit.setImage(new Image(getClass().getResource(exitImages[currentExitIndex]).toString()));
                         currentExitIndex++;
                         if (currentExitIndex >= exitImages.length) {
@@ -140,7 +142,7 @@ public class MenuController {
         }
         if (backwardExitTimeline == null) {
             backwardExitTimeline = new Timeline(
-                    new KeyFrame(Duration.millis(250), e -> {
+                    new KeyFrame(Duration.millis(35), e -> {
                         imageViewExit.setImage(new Image(getClass().getResource(exitImages[currentExitIndex]).toString()));
                         currentExitIndex--;
                         if (currentExitIndex < 0) {

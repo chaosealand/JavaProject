@@ -3,6 +3,7 @@ package entity;
 import Director.Director;
 
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import scene.GameControl;
@@ -52,6 +53,10 @@ public class Jet extends EntityRole{
         super.render();
     }
 
+    @Override
+    public Rectangle2D getContour() {
+        return new Rectangle2D(x+0.2*width, y, width, height);
+    }
 
     public void move () {
         if (team == Team.friend) {
