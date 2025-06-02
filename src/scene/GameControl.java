@@ -55,7 +55,6 @@ public class GameControl { //主遊戲畫面
         frameUpdater.start();
         initEnemy();
         SceneTransition.SceneTransition(stage.getScene(),root,1);
-
     }
 
     public void RenderAll (){

@@ -74,7 +74,6 @@ public class LaserBeam extends Entity{
         double dy =  y2-y1 ;
         GC.graphicsContext.strokeLine(x1,y1,x1+(percent*dx),y1+(percent*dy));
     }
-
     private void SetBorderIntersection (double TargetX,double  TargetY) {
         double dx =  TargetX-x ;
         double dy =  TargetY-y ;
