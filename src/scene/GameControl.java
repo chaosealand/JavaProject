@@ -67,10 +67,17 @@ public class GameControl { //主遊戲畫面
             Bullet b = bullets.get(i);
             b.render();
             b.ImpactCheck(enemies);
+            b.ImpactCheck(Player);
         }
         for(int i = 0; i < enemies.size(); i++){
             Jet enemy = enemies.get(i);
             enemy.render();
+            if (Player.isAlive() && enemy.isAlive() &&
+                    Player.getContour().intersects(enemy.getContour())) {
+                Player.setAlive(false);
+                enemy.setAlive(false);
+                System.out.println("Player collided with enemy!");
+            }
         }
 
         Player.render();
@@ -78,6 +85,15 @@ public class GameControl { //主遊戲畫面
         for (int i=0;i<LaserList.size();i++){
             LaserBeam L = LaserList.get(i);
             L.render();
+        }
+        if (!Player.isAlive()) {
+            GameRunning = false;
+            clear();
+            // 使用 Platform.runLater 確保 JavaFX 主執行緒安全轉場
+            javafx.application.Platform.runLater(() -> {
+                Director.getInstance().ToGameOver(stage);
+            });
+            return;
         }
     }
 
@@ -91,6 +107,7 @@ public class GameControl { //主遊戲畫面
     public void clear () {
         stage.removeEventHandler(KeyEvent.KEY_PRESSED, keyProcessor);
         stage.removeEventHandler(KeyEvent.KEY_RELEASED, keyProcessor);
+        KeyProcessor.pressedKeys.clear();
         frameUpdater.stop();
         Player = null ;
     }

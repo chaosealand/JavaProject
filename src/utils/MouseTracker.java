@@ -15,7 +15,9 @@ public class MouseTracker implements EventHandler<MouseEvent> {
     public void handle(MouseEvent E) {
         CursorX = E.getX();
         CursorY = E.getY();
+
         if (E.getEventType() == MouseEvent.MOUSE_PRESSED && E.getButton() == MouseButton.PRIMARY) {
+
             leftPressed = true;
         } else if (E.getEventType() == MouseEvent.MOUSE_RELEASED&& E.getButton() == MouseButton.PRIMARY) {
             leftPressed = false;
