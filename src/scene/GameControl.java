@@ -40,7 +40,7 @@ public class GameControl { //主遊戲畫面
     public void initialize (Stage stage) {
         this.stage = stage ;
         AnchorPane root = new AnchorPane(canvas);
-        Player = new Jet(Jet.jetImage,460,480,120,144,this, Team.friend);
+        Player = new Jet(460,480,this, Team.friend);
         Player.render();
         //stage.getScene().setRoot(root);
         background = new Background(this);
@@ -86,7 +86,7 @@ public class GameControl { //主遊戲畫面
             LaserBeam L = LaserList.get(i);
             L.render();
         }
-        if (!Player.isAlive()) {
+        if (!Player.isAlive() && Player.Exploded) {
             GameRunning = false;
             clear();
             // 使用 Platform.runLater 確保 JavaFX 主執行緒安全轉場

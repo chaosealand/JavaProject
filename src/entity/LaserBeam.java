@@ -15,7 +15,17 @@ public class LaserBeam extends Entity{
     private static final Color Alert = Color.YELLOW ;
     private static final Color Attack = Color.RED;
     private static final int LaserRemainFrame = 35;
-    private static Image reddot = new Image("Image/RedDot.png");
+    // 使用静态初始化块预加载图片，并添加错误处理
+    private static Image reddot;
+    static {
+        try {
+            reddot = new Image("Image/RedDot.png", true); // 使用后台加载
+        } catch (Exception e) {
+            System.err.println("无法加载LaserBeam红点图片: " + e.getMessage());
+            // 创建一个1x1像素的默认图片作为后备
+
+        }
+    }
     private Bullet bullet;
     private Team team ;
     public LaserBeam(double x, double y, GameControl GC , Team t) {
@@ -100,4 +110,3 @@ public class LaserBeam extends Entity{
         return super.getContour();
     }
 }
-
