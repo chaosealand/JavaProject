@@ -12,7 +12,7 @@ public class Bullet extends EntityRole{
 
     private double AngleRadian = 0 ;
     public boolean ImpactCheck(Jet jet){
-        if(jet!= null && getContour().intersects(jet.getContour())&&this.team!=jet.team){
+        if(jet!= null && getContour().intersects(jet.getContour())&&this.team!=jet.team && !jet.undefeatable){
             jet.setAlive(false);
             alive = false;
             return true;
