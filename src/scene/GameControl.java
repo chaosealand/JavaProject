@@ -39,7 +39,7 @@ public class GameControl { //主遊戲畫面
 
     public void initialize (Stage stage) {
         this.stage = stage ;
-        AnchorPane root = new AnchorPane(canvas);
+        this.root = new AnchorPane(canvas);
         Player = new Jet(460,480,this, Team.friend);
         Player.render();
         //stage.getScene().setRoot(root);
