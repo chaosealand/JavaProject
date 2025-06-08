@@ -33,7 +33,7 @@ public class GameControl { //主遊戲畫面
     public List<Jet> enemies = new ArrayList<>();//建立複數敵人
     public List<LaserBeam> LaserList = new ArrayList<>();
 
-
+    public AnchorPane root;
 
     public Boolean GameRunning = false ;
 
@@ -73,7 +73,7 @@ public class GameControl { //主遊戲畫面
             Jet enemy = enemies.get(i);
             enemy.render();
             if (Player.isAlive() && enemy.isAlive() &&
-                    Player.getContour().intersects(enemy.getContour())) {
+                    Player.getContour().intersects(enemy.getContour()) && !Player.undefeatable) {
                 Player.setAlive(false);
                 enemy.setAlive(false);
                 System.out.println("Player collided with enemy!");

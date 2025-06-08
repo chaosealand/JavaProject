@@ -12,6 +12,11 @@ public abstract class Entity { //所有的畫面物件都是繼承於它，如:p
     Image image ; //實體的圖片
     double x , y , width , height ; //實體的參數
     GameControl GC ;
+    public double getX() { return x; }
+    public double getY() { return y; }
+    public double getWidth() { return width; }
+    public double getHeight() { return height; }
+    //給shield找飛機的中心要用
 
 
     public Entity(Image image, double x, double y, double width, double height, GameControl GC) {

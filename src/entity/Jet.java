@@ -13,6 +13,8 @@ import utils.KeyProcessor;
 import utils.MouseTracker;
 import utils.Team;
 
+import java.security.Key;
+
 public class Jet extends EntityRole {
 
     public static final Image jetImage = new Image("/Image/JetImage.png");
@@ -31,10 +33,12 @@ public class Jet extends EntityRole {
     private final long fireCooldown = 200;
     private final long dashCooldown = 1000;
     private final long dashDuration = 100;
+    private final long shieldcooldown = 10000;
 
     private long lastFireTime = 0;
     private long lastDashTime = 0;
     private long dashEndTime = 0;
+    private long lastShieldTime = 0;
     private boolean isDashing = false;
 
     private float Vx = 0, Vy = 0;
@@ -151,6 +155,8 @@ public class Jet extends EntityRole {
             lastFireTime = now;
         }
 
+        if (KeyProcessor.pressedKeys.contains(KeyCode.E)) shieldopen();
+
         if (Vx > 3) image = JetImageRight;
         if (Vx < -3) image = JetImageLeft;
 
@@ -174,6 +180,16 @@ public class Jet extends EntityRole {
 
         GC.bullets.add(new Bullet(centerX, centerY, GC, team));
         GC.bullets.add(new Bullet(centerX - 40, centerY, GC, team));
+    }
+
+    public void shieldopen(){
+        long now = System.currentTimeMillis();
+        if(now-lastShieldTime < shieldcooldown) return;
+        lastShieldTime = now;
+        //給無敵效果
+        skill.shield.apply(getCenterX(), getCenterY(), GC);
+        //無敵的動畫
+        utils.ShieldVisual.playEMP(GC.root,this, 5000);
     }
 
     private void BorderCheck() {
