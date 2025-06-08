@@ -20,6 +20,7 @@ public class Jet extends EntityRole {
     public static final Image JetImageRight = new Image("/Image/JetImageRight.png");
     public static final Image EnemyImage = new Image("/Image/PlayerJet.png");
 
+
     public static final double PlayerWidth = 120, PlayerHeight = 144;
     public static final double EnemyWidth = 60, EnemyHeight = 72;
 
@@ -39,8 +40,33 @@ public class Jet extends EntityRole {
     private float Vx = 0, Vy = 0;
     private float Ax = 0, Ay = 0;
 
+    private final float ExplosionDuration = 1000;
+    public boolean Exploded = false;
+    private int explosionframe =0;
+    private long lastExplosiontick = 0;
+    private static final Image[] PlayerExplosion = {
+            new Image("Image/PlayerExplosion/explosion1.png"),
+            new Image("Image/PlayerExplosion/explosion2.png"),
+            new Image("Image/PlayerExplosion/explosion3.png"),
+            new Image("Image/PlayerExplosion/explosion4.png"),
+            new Image("Image/PlayerExplosion/explosion5.png"),
+            new Image("Image/PlayerExplosion/explosion6.png"),
+            new Image("Image/PlayerExplosion/explosion7.png"),
+            new Image("Image/PlayerExplosion/explosion8.png"),
+    };
+
+
     public Jet(Image image, double x, double y, double width, double height, GameControl GC, Team team) {
         super(image, x, y, width, height, GC, team);
+    }
+    public Jet(double x, double y, GameControl GC, Team team) {
+        super(jetImage, x, y, PlayerWidth, PlayerHeight, GC, team);
+        this.team = team;
+        if (team == Team.enemy) {
+            image = EnemyImage;
+            width = EnemyWidth;
+            height = EnemyHeight;
+        }
     }
 
     @Override
@@ -49,7 +75,24 @@ public class Jet extends EntityRole {
             GC.enemies.remove(this);
             return;
         } else if (!alive && team == Team.friend) {
-            System.out.println("Player Died");
+
+            if (!Exploded) {
+                //System.out.println(System.currentTimeMillis() );
+                //System.out.println(lastExplosiontick);
+                if (System.currentTimeMillis() - lastExplosiontick >  ExplosionDuration / PlayerExplosion.length && explosionframe < PlayerExplosion.length) {
+                    lastExplosiontick = System.currentTimeMillis();
+                    image = PlayerExplosion[explosionframe];
+                    explosionframe  ++ ;
+                    lastExplosiontick = System.currentTimeMillis() ;
+                    System.out.println(explosionframe);
+                }
+                if (explosionframe >= PlayerExplosion.length) {
+                    Exploded = true;
+                }
+            }
+
+
+
         }
         super.render();
     }
@@ -63,15 +106,23 @@ public class Jet extends EntityRole {
     public void move () {
 
         if (team == Team.friend) {
-            PlayerControl();
+            if (alive) {
+                PlayerControl();
+            } else {
+                Ax = -(Vx * Resistance);
+                Ay = -(Vy * Resistance);
+                Vx += Ax;
+                Vy += Ay;
+            }
             BorderCheck();
         }
+
     }
 
     private void PlayerControl() {
         Ax = 0;
         Ay = 0;
-        image = jetImage;
+        //image = jetImage;
 
         long now = System.currentTimeMillis();
 

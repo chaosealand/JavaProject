@@ -7,7 +7,7 @@
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="controller.GameOverController"
-            prefWidth="2060" prefHeight="1920.0">
+            prefWidth="1920" prefHeight="1080.0">
 
    <children>
       <Label layoutX="200" layoutY="100" text="GAME OVER">
