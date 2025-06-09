@@ -41,7 +41,7 @@ public class Bullet extends EntityRole{
 
     public Bullet( double x, double y,  GameControl GC, Team team) {
         super(bulletimage, x, y, BulletWidth, BulletHeight, GC, team);
-        AngleRadian = Math.PI/2 ;
+        AngleRadian = 0 ;
     }
     public Bullet( double x, double y, double V , double Angle ,GameControl GC, Team team,Image image) {
         super(image, x, y, BulletWidth, BulletHeight, GC, team);
