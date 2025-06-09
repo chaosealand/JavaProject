@@ -25,7 +25,10 @@ public class KeyProcessor implements EventHandler<KeyEvent> {
             pressedKeys.add(Code);
         }
         else if (T == KeyEvent.KEY_RELEASED){
-            if (Code==KeyCode.SPACE) Director.getInstance().GC.ToPauseOrNotToPause();
+
+            if (Code==KeyCode.SPACE) {
+                Director.getInstance().GC.ToPauseOrNotToPause();
+            }
             pressedKeys.remove(Code);
         }
 

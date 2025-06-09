@@ -16,6 +16,7 @@ public class GameOverController {
         // 點擊按鈕 → 回到主選單場景
         btnBackToMenu.setOnAction(event -> {
             try {
+                Director.getInstance().GC.clear();
                 Director.getInstance().ToMenu();
             } catch (IOException e) {
                 throw new RuntimeException(e);
