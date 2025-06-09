@@ -61,7 +61,7 @@ public class GameControl { //主遊戲畫面
     public void RenderAll (){
 
         Player.move();
-        background.render();
+        background.render(true);
 
         for(int i = 0; i < bullets.size(); i++){   //渲染子彈
             Bullet b = bullets.get(i);

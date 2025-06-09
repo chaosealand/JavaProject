@@ -157,14 +157,21 @@ public class Jet extends EntityRole {
 
         if (KeyProcessor.pressedKeys.contains(KeyCode.E)) shieldopen();
 
-        if (Vx > 3) image = JetImageRight;
-        if (Vx < -3) image = JetImageLeft;
+
 
         if (Ax == 0 && Vx != 0) Ax = -(Vx * Resistance);
         if (Ay == 0 && Vy != 0) Ay = -(Vy * Resistance);
 
         Vx += Ax;
         Vy += Ay;
+
+        if (Vy > 3) {System.out.println(Vy);image = JetImageRight;}
+        else image = jetImage;
+
+        if (Vy < -3) image = JetImageLeft;
+        else image = jetImage;
+
+        //System.out.println(Vy);
 
         if (!isDashing) {
             if (Vx > SpeedLimit) Vx = SpeedLimit;
