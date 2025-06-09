@@ -165,10 +165,8 @@ public class Jet extends EntityRole {
         Vx += Ax;
         Vy += Ay;
 
-        if (Vy > 3) {System.out.println(Vy);image = JetImageRight;}
-        else image = jetImage;
-
-        if (Vy < -3) image = JetImageLeft;
+        if (Vy > 3) {image = JetImageRight;}
+        else if (Vy < -3) image = JetImageLeft;
         else image = jetImage;
 
         //System.out.println(Vy);
@@ -196,7 +194,7 @@ public class Jet extends EntityRole {
         //給無敵效果
         skill.shield.apply(getCenterX(), getCenterY(), GC);
         //無敵的動畫
-        utils.ShieldVisual.playEMP(GC.root,this, 5000);
+        utils.ShieldVisual.playEMP(GC,this, 5000);
     }
 
     private void BorderCheck() {
@@ -209,3 +207,4 @@ public class Jet extends EntityRole {
         if (y > Director.HEIGHT - height + 0.5 * height) y = Director.HEIGHT - height + 0.5 * height;
     }
 }
+
