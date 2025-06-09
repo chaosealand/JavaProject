@@ -9,6 +9,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import scene.GameControl;
+import skill.bladeskill;
 import utils.KeyProcessor;
 import utils.MouseTracker;
 import utils.Team;
@@ -30,10 +31,13 @@ public class Jet extends EntityRole {
     private static final float Acc = 0.6f;
     private static final float Resistance = 0.01f;
 
+    //技能冷卻管理
     private final long fireCooldown = 200;
     private final long dashCooldown = 1000;
     private final long dashDuration = 100;
     private final long shieldcooldown = 10000;
+    private long lastBladeTime = 0;
+    private final long bladeCooldown = 10000;
 
     private long lastFireTime = 0;
     private long lastDashTime = 0;
@@ -157,7 +161,7 @@ public class Jet extends EntityRole {
 
         if (KeyProcessor.pressedKeys.contains(KeyCode.E)) shieldopen();
 
-
+        if (KeyProcessor.pressedKeys.contains(KeyCode.Q)) fireblade();
 
         if (Ax == 0 && Vx != 0) Ax = -(Vx * Resistance);
         if (Ay == 0 && Vy != 0) Ay = -(Vy * Resistance);
@@ -165,10 +169,8 @@ public class Jet extends EntityRole {
         Vx += Ax;
         Vy += Ay;
 
-        if (Vy > 3) {System.out.println(Vy);image = JetImageRight;}
-        else image = jetImage;
-
-        if (Vy < -3) image = JetImageLeft;
+        if (Vy > 3) {image = JetImageRight;}
+        else if (Vy < -3) image = JetImageLeft;
         else image = jetImage;
 
         //System.out.println(Vy);
@@ -186,7 +188,7 @@ public class Jet extends EntityRole {
         double centerY = y + height / 2;
 
         GC.bullets.add(new Bullet(centerX, centerY, GC, team));
-        GC.bullets.add(new Bullet(centerX - 40, centerY, GC, team));
+        GC.bullets.add(new Bullet(centerX , centerY - 50, GC, team));
     }
 
     public void shieldopen(){
@@ -196,7 +198,14 @@ public class Jet extends EntityRole {
         //給無敵效果
         skill.shield.apply(getCenterX(), getCenterY(), GC);
         //無敵的動畫
-        utils.ShieldVisual.playEMP(GC.root,this, 5000);
+        utils.ShieldVisual.playEMP(GC,this, 5000);
+    }
+
+    public void fireblade(){
+        long now = System.currentTimeMillis();
+        if(now - lastBladeTime < bladeCooldown) return;
+        lastBladeTime = now;
+        bladeskill.activateBlade(this, GC);
     }
 
     private void BorderCheck() {
@@ -209,3 +218,4 @@ public class Jet extends EntityRole {
         if (y > Director.HEIGHT - height + 0.5 * height) y = Director.HEIGHT - height + 0.5 * height;
     }
 }
+
