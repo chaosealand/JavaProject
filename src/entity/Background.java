@@ -29,6 +29,7 @@ public class Background {
         try {
             // 使用相对路径加载视频资源
             URL resourceUrl = getClass().getResource("/Video/background1.mp4");
+            System.out.println("Excecuted");
             if (resourceUrl == null) {
                 System.err.println("无法找到视频资源: /Video/background1.mp4");
                 // 如果找不到视频，可以考虑使用黑色背景作为后备方案

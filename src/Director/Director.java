@@ -70,5 +70,27 @@ public class Director {
             e.printStackTrace();
         }
     }
+    public void ToGameWin(Stage stage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameWin.fxml"));
+            Parent root = loader.load();
+
+            // 可以設定勝利訊息，例如：
+            // GameWinController controller = loader.getController();
+            // controller.setWinMessage("你贏了！恭喜！");
+
+            // 跟 ToGameOver 一樣可用 SceneTransition
+            if (stage.getScene() != null) {
+                Animation.SceneTransition.SceneTransition(stage.getScene(), root, 2.0);
+            } else {
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
