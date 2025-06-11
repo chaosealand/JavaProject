@@ -33,7 +33,7 @@ public class GameOverController {
 
     private int gameOverIndex = 0;
     private static final Image[] GAME_OVER_IMAGE = new Image[27];
-    private static final Image[] BackToMenu = new Image[5];
+    public static final Image[] BackToMenu = new Image[5];
 
     // 静态初始化块用于预加载所有图像
     static {

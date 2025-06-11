@@ -53,7 +53,8 @@ public class Director {
     }
     public void ToGameOver(Stage stage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameOver.fxml"));
+            //FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameOver.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Victory.fxml"));
             Parent root = loader.load();
 
             // 使用 SceneTransition 類添加淡入淡出效果
