@@ -57,6 +57,22 @@ public abstract class EnemyJet extends Jet {
             new Image("Image/jet1-19.png"),
             new Image("Image/jet1-20.png"),
     };
+    private static final Image[] BossExplosion = {
+            new Image("Image/jet2-1.png"),
+            new Image("Image/jet2-2.png"),
+            new Image("Image/jet2-3.png"),
+            new Image("Image/jet2-4.png"),
+            new Image("Image/jet2-5.png"),
+            new Image("Image/jet2-6.png"),
+            new Image("Image/jet2-7.png"),
+            new Image("Image/jet2-8.png"),
+            new Image("Image/jet2-9.png"),
+            new Image("Image/jet2-10.png"),
+            new Image("Image/jet2-11.png"),
+            new Image("Image/jet2-12.png"),
+            new Image("Image/jet2-13.png"),
+            new Image("Image/jet2-14.png"),
+    };
 
     public EnemyJet(double x, double y, GameControl gc) {
         super(Jet.EnemyImage, x, y, Jet.EnemyWidth, Jet.EnemyHeight, gc, Team.enemy);
@@ -91,20 +107,37 @@ public abstract class EnemyJet extends Jet {
             super.render();
         } else if (!Exploded) {
             long now = System.currentTimeMillis();
+            if (this instanceof BOSS) {
+                if (now - lastExplosiontick >= ExplosionDuration / BossExplosion.length && explosionframe < BossExplosion.length) {
+                    image = BossExplosion[explosionframe]; // 換幀
+                    explosionframe++;
+                    lastExplosiontick = now;
+                }
 
-            if (now - lastExplosiontick >= ExplosionDuration / EnemyExplosion.length && explosionframe < EnemyExplosion.length) {
-                image = EnemyExplosion[explosionframe]; // 換幀
-                explosionframe++;
-                lastExplosiontick = now;
+                GC.graphicsContext.setGlobalAlpha(1.0);
+                super.render(); // 渲染爆炸幀
+
+                // 若所有幀播放完畢
+                if (explosionframe >= EnemyExplosion.length) {
+                    Exploded = true;
+                }
+            } else {
+                if (now - lastExplosiontick >= ExplosionDuration / EnemyExplosion.length && explosionframe < EnemyExplosion.length) {
+                    image = EnemyExplosion[explosionframe]; // 換幀
+                    explosionframe++;
+                    lastExplosiontick = now;
+                }
+
+                GC.graphicsContext.setGlobalAlpha(1.0);
+                super.render(); // 渲染爆炸幀
+
+                // 若所有幀播放完畢
+                if (explosionframe >= EnemyExplosion.length) {
+                    Exploded = true;
+                }
             }
 
-            GC.graphicsContext.setGlobalAlpha(1.0);
-            super.render(); // 渲染爆炸幀
 
-            // 若所有幀播放完畢
-            if (explosionframe >= EnemyExplosion.length) {
-                Exploded = true;
-            }
 
         }
 

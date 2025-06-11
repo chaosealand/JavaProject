@@ -6,6 +6,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.input.KeyCode;
 import java.util.Random;
+import javafx.scene.image.Image;
 
 public class BOSS extends EnemyJet {
     private double rightX;
@@ -30,13 +31,16 @@ public class BOSS extends EnemyJet {
     private long laserStartTime = 0;
     private long laserDuration = 1200;
 
+
     private Random random = new Random();
 
+    private static Image BossImage = new Image("Image/jet2-1.png");
+
     public BOSS(double x, double y, GameControl gc) {
-        super(Jet.EnemyImage, x, y, 160, 180, gc);
+        super(BossImage, x, y, 240, 260, gc);
         this.rightX = x;
         this.centerY = y;
-        this.health = 270;
+        this.health = 2;
         this.scoreValue = 2000;
         this.lastPatternChangeTime = System.currentTimeMillis();
     }
@@ -45,13 +49,14 @@ public class BOSS extends EnemyJet {
     protected void updateMovement() {
         // 固定X軸在右半邊
         x = rightX;
+        long times = System.currentTimeMillis()/1000;
 
         // 計算Y軸與中心距離
         double distFromCenter = Math.abs(y - centerY);
 
         // 緩速因子，中心區域內較慢，遠離中心速度加快
         double speedFactor;
-        if (distFromCenter < slowZoneRange) {
+        if (distFromCenter > slowZoneRange) {
             speedFactor = 0.2 + 0.8 * (distFromCenter / slowZoneRange);
         } else {
             speedFactor = 1.0;
@@ -60,7 +65,7 @@ public class BOSS extends EnemyJet {
         moveAngle += baseMoveSpeed * speedFactor;
 
         // 根據調整後的角度計算Y座標
-        y = centerY + moveRange * Math.sin(moveAngle);
+        y = 540 + (moveRange/2) * Math.sin(moveAngle);
 
         Vx = 0;
         Vy = 0;

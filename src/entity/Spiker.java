@@ -53,10 +53,10 @@ public class Spiker extends EnemyJet {
         super(x, y, gc);
 
         // 设置基本属性
-        this.health = 180;                // 更高的生命值
+        this.health = 250;                // 更高的生命值
         this.scoreValue = 300;            // 击败获得更多分数
         this.movementSpeed = 1.5;         // 基本移动速度
-        this.attackCooldown = 3000;       // 攻击冷却与基本敌人相同
+        this.attackCooldown = 6000;       // 攻击冷却与基本敌人相同
 
         // 初始化状态和时间
         stateStartTime = Instant.now();
@@ -212,7 +212,7 @@ public class Spiker extends EnemyJet {
                 if (currentState == STATE_NORMAL_SHOOT) {
                     // 发射普通子弹
                     Timeline timeline = new Timeline(
-                        new KeyFrame(javafx.util.Duration.millis(35), e -> {
+                        new KeyFrame(javafx.util.Duration.millis(200), e -> {
                                 double randomangle = angle + (Math.PI / 3 ) * random.nextDouble() - Math.PI/6;
                                 new Bullet(getCenterX(), getCenterY(), randomangle, GC, team);
                         })
@@ -224,6 +224,7 @@ public class Spiker extends EnemyJet {
                     // 发射尖刺子弹
                     double randomangle = angle + (Math.PI / 3 ) * random.nextDouble() - Math.PI/6;
                     new SpikeBullet(getCenterX(), getCenterY(), randomangle, 1.0, GC, team);
+                    if (random.nextBoolean()) GC.LaserList.add(new LaserBeam(getCenterX(), getCenterY(),  GC, team));
                 }
                 lastAttackTime = System.currentTimeMillis(); // 更新上次攻击时间
                 // 更新连续射击计数
