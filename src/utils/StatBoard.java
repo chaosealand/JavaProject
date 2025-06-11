@@ -24,6 +24,9 @@ public class StatBoard {
     public static void addEnemyTakeDown() {
         EnemyTakeDowns++;
     }
+    public static void addEnemyTakeDown(int i) {
+        EnemyTakeDowns+= i;
+    }
 
     public static void addSurvivedTime(int time) {
         SurvivedTime += time;

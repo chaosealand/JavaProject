@@ -59,13 +59,13 @@ public class bladeskill {
             double bh = bladeView.getFitHeight();
 
             // ✅ 判斷是否擊中敵人（Team.ENEMY）
-            for (EntityRole entity : gc.entities) {
-                if (entity.getTeam() == Team.enemy && entity.isAlive() &&
-                        entity.getX() < bx + bw &&
-                        entity.getX() + entity.getWidth() > bx &&
-                        entity.getY() < by + bh &&
-                        entity.getY() + entity.getHeight() > by) {
-                    entity.setAlive(false); // 直接死亡
+            for (Jet enemies : gc.enemies ){
+                if (enemies.getTeam() == Team.enemy && enemies.isAlive() &&
+                        enemies.getX() < bx + bw &&
+                        enemies.getX() + enemies.getWidth() > bx &&
+                        enemies.getY() < by + bh &&
+                        enemies.getY() + enemies.getHeight() > by) {
+                    enemies.setAlive(false); // 直接死亡
                 }
             }
 
