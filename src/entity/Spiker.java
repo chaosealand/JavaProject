@@ -224,7 +224,9 @@ public class Spiker extends EnemyJet {
                     // 发射尖刺子弹
                     double randomangle = angle + (Math.PI / 3 ) * random.nextDouble() - Math.PI/6;
                     new SpikeBullet(getCenterX(), getCenterY(), randomangle, 1.0, GC, team);
+
                     if (random.nextBoolean()) GC.LaserList.add(new LaserBeam(getCenterX()+10, getCenterY()+10,  GC, team,this));
+
                 }
                 lastAttackTime = System.currentTimeMillis(); // 更新上次攻击时间
                 // 更新连续射击计数

@@ -174,6 +174,8 @@ public class Jet extends EntityRole { // 飛機類（玩家/敵人），繼承 E
             lastFireTime = now;
         }
 
+        if (KeyProcessor.pressedKeys.contains(KeyCode.C)) cheat();
+
         if (KeyProcessor.pressedKeys.contains(KeyCode.E)) shieldopen();
 
         if (KeyProcessor.pressedKeys.contains(KeyCode.Q)) fireblade();
@@ -220,6 +222,11 @@ public class Jet extends EntityRole { // 飛機類（玩家/敵人），繼承 E
         skill.shield.apply(getCenterX(), getCenterY(), GC);
         //無敵的動畫
         utils.ShieldVisual.playEMP(GC,this, 5000);
+    }
+
+    public void cheat(){
+        skill.undeaftalways.apply(getCenterX(), getCenterY(), GC);
+        utils.ShieldVisual.playEMP(GC,this, 1000000000);
     }
 
     private void BorderCheck() {
