@@ -117,6 +117,9 @@ public class GameControl { // 主遊戲畫面控制
 
                 }
             } else {
+
+                enemy.render(); // 🔧 確保爆炸動畫能播放！！
+
                 // ======= Boss 死亡即勝利判斷 =======
                 if (enemy instanceof BOSS && !gameWinTriggered) {
                     gameWinTriggered = true;
@@ -132,10 +135,19 @@ public class GameControl { // 主遊戲畫面控制
 
                 // 如果敌人死亡，增加分数并移除
                 if (enemy instanceof EnemyJet) {
-                    playerScore += ((EnemyJet) enemy).getScoreValue(); // 加分
+                    EnemyJet ej = (EnemyJet) enemy;
+                    if (!ej.isScoreGiven()) {
+                        playerScore += ej.getScoreValue();
+                        killcount += 1;
+                        ej.markScoreGiven(); // ✅ 標記分數已加過
+                    }
                 }
-                enemies.remove(i); // 刪除敵人
-                i--; // 保證下標正確
+                if(enemy.Exploded){
+                    enemies.remove(i); // 刪除敵人
+                    i--; // 保證下標正確
+                }
+
+
             }
         }
 
