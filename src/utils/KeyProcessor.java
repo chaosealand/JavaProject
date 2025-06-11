@@ -20,11 +20,15 @@ public class KeyProcessor implements EventHandler<KeyEvent> {
         EventType<KeyEvent> T = keyEvent.getEventType();
 
         if (T ==KeyEvent.KEY_PRESSED) {
-            if (keyEvent.getCode()==KeyCode.L) {Director.getInstance().GC.LaserList.add(new LaserBeam(0,0,Director.getInstance().GC));}
+            if (keyEvent.getCode()==KeyCode.L) {
+                Director.getInstance().GC.LaserList.add(new LaserBeam(0,0,Director.getInstance().GC,Team.enemy));}
             pressedKeys.add(Code);
         }
         else if (T == KeyEvent.KEY_RELEASED){
-            if (Code==KeyCode.SPACE) Director.getInstance().GC.ToPauseOrNotToPause();
+
+            if (Code==KeyCode.SPACE) {
+                Director.getInstance().GC.ToPauseOrNotToPause();
+            }
             pressedKeys.remove(Code);
         }
 
