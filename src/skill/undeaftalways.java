@@ -6,12 +6,12 @@ import javafx.util.Duration;
 import scene.GameControl;
 import entity.Jet;
 
-public class shield {
+public class undeaftalways {
 
     public static void apply(double x, double y, GameControl gc) {
         double radius = 200;
         long now = System.currentTimeMillis();
-        long undefeatabletime = now + 5000; // 無敵持續 5 秒
+        long undefeatabletime1 = now + 1000000000; // 無敵持續 5 秒
 
         EntityRole player = gc.Player;
 
@@ -21,10 +21,10 @@ public class shield {
 
             if (dx * dx + dy * dy <= radius * radius) {
                 player.undefeatable = true;
-                player.undefeatableTimeLast = undefeatabletime;
+                player.undefeatableTimeLast = undefeatabletime1;
             }
 
-            PauseTransition disable = new PauseTransition(Duration.millis(5000));
+            PauseTransition disable = new PauseTransition(Duration.millis(1000000000));
             disable.setOnFinished(e -> {
                 player.undefeatable = false;
                 System.out.println("[盾] 玩家無敵結束！");

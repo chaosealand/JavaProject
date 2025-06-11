@@ -40,7 +40,7 @@ public class BOSS extends EnemyJet {
         super(BossImage, x, y, 240, 260, gc);
         this.rightX = x;
         this.centerY = y;
-        this.health = 2;
+        this.health = 500;
         this.scoreValue = 2000;
         this.lastPatternChangeTime = System.currentTimeMillis();
     }
