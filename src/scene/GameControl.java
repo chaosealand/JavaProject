@@ -127,12 +127,12 @@ public class GameControl { // 主遊戲畫面控制
 
                 // ======= Boss 死亡即勝利判斷 =======
                 if (enemy instanceof BOSS && !gameWinTriggered) {
-
-                                javafx.application.Platform.runLater(() -> {
-                                    Director.getInstance().ToGameWin(stage);
-
-                                    gameWinTriggered = true;
-                                    GameRunning = false; });
+                    // 如果是 BOSS 且未觸發勝利，則觸發勝利
+                    gameWinTriggered = true;
+                    GameRunning = false;
+                    StatBoard.addSurvivedTime(getGameTime());
+                    StatBoard.addEnemyTakeDown(killcount- outofboundkill); // 增加擊殺數
+                    Director.getInstance().ToGameWin(stage);
 
 
 
