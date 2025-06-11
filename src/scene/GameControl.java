@@ -8,10 +8,14 @@ import javafx.animation.Timeline;
 import javafx.event.Event;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import utils.*;
@@ -50,6 +54,8 @@ public class GameControl { // 主遊戲畫面控制
 
     public int killcount = 0 ;
     public int outofboundkill = 0 ;
+    Text shield ;
+    Text wave ;
     // EnemyManager.java
     public void spawnBoss() {
         BOSS boss = new BOSS(1500, 100, this);
@@ -83,10 +89,28 @@ public class GameControl { // 主遊戲畫面控制
         enemyManager.startSpawning(); // 啟動敵人產生
         SceneTransition.SceneTransition(stage.getScene(),root,1); // 場景轉換特效
         background.PlayMedia(); // 播放背景音樂/影片
+        shield = new Text( "\uD83C\uDD34 Shield");
+        shield.setFont(Font.font("Segoe UI Symbol", 40)); // 设置字体和大小
+        shield.setFill(Color.WHITE); // 设置颜色
+        shield.setLayoutX(1600);
+        shield.setLayoutY(949); // 设置位置
+
+        wave = new Text("\uD83C\uDD40 Pulse");
+        wave.setFont(Font.font("Segoe UI Symbol", 40)); // 设置字体和大小
+        wave.setFill(Color.WHITE); // 设置颜色
+        wave.setLayoutX(1600);
+        wave.setLayoutY(1009); // 设置位置
+        root.getChildren().add(wave);
+        root.getChildren().add(shield);
     }
 
     public void RenderAll() { // 遊戲主渲染流程
         if (!GameRunning) return; // 非運行狀態不渲染
+
+        if (Player.shieldAvailable) shield.setFill(Color.RED);
+        else shield.setFill(Color.WHITE); // 如果護盾冷卻中則變灰色
+        if (Player.BladeAvailable) wave.setFill(Color.RED);
+        else wave.setFill(Color.WHITE); // 如果脈衝技能冷卻中則變灰色
 
         // 清除整个画布，防止出现拖尾效果
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight()); // 清空畫布

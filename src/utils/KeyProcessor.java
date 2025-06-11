@@ -23,7 +23,7 @@ public class KeyProcessor implements EventHandler<KeyEvent> {
         if (T == KeyEvent.KEY_PRESSED) {
             lastKeyPressed = Code; // 新增
             if (Code == KeyCode.L) {
-                Director.getInstance().GC.LaserList.add(new LaserBeam(0, 0, Director.getInstance().GC, Team.enemy));
+               ;
             }
             pressedKeys.add(Code);
         } else if (T == KeyEvent.KEY_RELEASED) {
