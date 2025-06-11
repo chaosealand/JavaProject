@@ -10,18 +10,19 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import scene.GameControl;
 import skill.bladeskill;
+import skill.bladeskill;
 import utils.KeyProcessor;
 import utils.MouseTracker;
 import utils.Team;
 
 import java.security.Key;
 
-public class Jet extends EntityRole {
+public class Jet extends EntityRole { // 飛機類（玩家/敵人），繼承 EntityRole
 
     public static final Image jetImage = new Image("/Image/JetImage.png");
     public static final Image JetImageLeft = new Image("/Image/JetImageLeft.png");
     public static final Image JetImageRight = new Image("/Image/JetImageRight.png");
-    public static final Image EnemyImage = new Image("/Image/PlayerJet.png");
+    public static final Image EnemyImage = new Image("/Image/Enemy1.png");
 
 
     public static final double PlayerWidth = 120, PlayerHeight = 144;
@@ -45,7 +46,8 @@ public class Jet extends EntityRole {
     private long lastShieldTime = 0;
     private boolean isDashing = false;
 
-    private float Vx = 0, Vy = 0;
+    float Vx = 0;
+    float Vy = 0;
     private float Ax = 0, Ay = 0;
 
     private final float ExplosionDuration = 1000;
@@ -65,12 +67,12 @@ public class Jet extends EntityRole {
 
 
     public Jet(Image image, double x, double y, double width, double height, GameControl GC, Team team) {
-        super(image, x, y, width, height, GC, team);
+        super(image, x, y, width, height, GC, team); // 指定圖片建構
     }
-    public Jet(double x, double y, GameControl GC, Team team) {
-        super(jetImage, x, y, PlayerWidth, PlayerHeight, GC, team);
+    public Jet(double x, double y, GameControl GC, Team team) { // 預設玩家/敵人建構
+        super(jetImage, x, y, PlayerWidth, PlayerHeight, GC, team); // 預設玩家圖片/尺寸
         this.team = team;
-        if (team == Team.enemy) {
+        if (team == Team.enemy) { // 若是敵人則改用敵人圖/尺寸
             image = EnemyImage;
             width = EnemyWidth;
             height = EnemyHeight;
@@ -78,24 +80,23 @@ public class Jet extends EntityRole {
     }
 
     @Override
-    public void render() {
-        if (!alive && team == Team.enemy) {
+    public void render() { // 重寫渲染
+        if (!alive && team == Team.enemy) { // 敵人死亡：從列表移除
             GC.enemies.remove(this);
+            GC.killcount += 1; // 增加擊殺數;
             return;
-        } else if (!alive && team == Team.friend) {
-
+        } else if (!alive && team == Team.friend) { // 玩家死亡
             if (!Exploded) {
                 //System.out.println(System.currentTimeMillis() );
                 //System.out.println(lastExplosiontick);
                 if (System.currentTimeMillis() - lastExplosiontick >  ExplosionDuration / PlayerExplosion.length && explosionframe < PlayerExplosion.length) {
                     lastExplosiontick = System.currentTimeMillis();
-                    image = PlayerExplosion[explosionframe];
+                    image = PlayerExplosion[explosionframe]; // 切換爆炸幀圖
                     explosionframe  ++ ;
                     lastExplosiontick = System.currentTimeMillis() ;
-                    System.out.println(explosionframe);
                 }
                 if (explosionframe >= PlayerExplosion.length) {
-                    Exploded = true;
+                    Exploded = true; // 爆炸動畫結束
                 }
             }
 
@@ -107,27 +108,31 @@ public class Jet extends EntityRole {
 
 
     @Override
-    public Rectangle2D getContour() {
-        return new Rectangle2D(x+0.2*width, y, width, height);
+    public Rectangle2D getContour() { // 返回碰撞框（微調可擊範圍）
+        return new Rectangle2D(x+0.2*width, y +0.2*height, width, height);
     }
 
-    public void move () {
-
+    public void move () { // 飛機移動
         if (team == Team.friend) {
             if (alive) {
-                PlayerControl();
+                PlayerControl(); // 玩家操作
             } else {
-                Ax = -(Vx * Resistance);
+                Ax = -(Vx * Resistance); // 慣性漸停
                 Ay = -(Vy * Resistance);
                 Vx += Ax;
                 Vy += Ay;
             }
-            BorderCheck();
+            BorderCheck(); // 邊界檢查
         }
-
+        else if (team == Team.enemy) {
+            //System.out.println("Moving vx: " + Vx + ", vy: " + Vy);
+            x += Vx;
+            y += Vy;
+            BorderCheck(); // 邊界檢查
+        }
     }
 
-    private void PlayerControl() {
+    private void PlayerControl() { // 玩家操控與物理運動
         Ax = 0;
         Ay = 0;
         //image = jetImage;
@@ -147,14 +152,14 @@ public class Jet extends EntityRole {
             isDashing = false;
         }
 
-        float acc = isDashing ? 3 * Acc : Acc;
+        float acc = isDashing ? 3 * Acc : Acc; // 衝刺時加速度提升
 
         if (KeyProcessor.pressedKeys.contains(KeyCode.W)) Ay -= acc;
         if (KeyProcessor.pressedKeys.contains(KeyCode.S)) Ay += acc;
         if (KeyProcessor.pressedKeys.contains(KeyCode.A)) Ax -= acc;
         if (KeyProcessor.pressedKeys.contains(KeyCode.D)) Ax += acc;
 
-        if (MouseTracker.leftPressed && (now - lastFireTime > fireCooldown)) {
+        if (MouseTracker.leftPressed && (now - lastFireTime > fireCooldown)) { // 滑鼠左鍵可射擊
             Fire();
             lastFireTime = now;
         }
@@ -186,9 +191,12 @@ public class Jet extends EntityRole {
     public void Fire() {
         double centerX = x + width / 2;
         double centerY = y + height / 2;
+        double wingOffset = height * 0.25; // 机翼距中心偏移
 
-        GC.bullets.add(new Bullet(centerX, centerY, GC, team));
-        GC.bullets.add(new Bullet(centerX , centerY - 50, GC, team));
+        // 上機翼（左翼，旋轉後）
+        GC.bullets.add(new Bullet(centerX, centerY - 15 - wingOffset,0,8 ,GC, team));
+        // 下機翼（右翼，旋轉後）
+        GC.bullets.add(new Bullet(centerX, centerY - 15 + wingOffset,0,8, GC, team));
     }
 
     public void shieldopen(){
@@ -201,13 +209,6 @@ public class Jet extends EntityRole {
         utils.ShieldVisual.playEMP(GC,this, 5000);
     }
 
-    public void fireblade(){
-        long now = System.currentTimeMillis();
-        if(now - lastBladeTime < bladeCooldown) return;
-        lastBladeTime = now;
-        bladeskill.activateBlade(this, GC);
-    }
-
     private void BorderCheck() {
         if (x < -0.5 * width) x = -0.5 * width;
         if (x >= -0.5 * width && x <= Director.WIDTH - width + 0.5 * width) x += Vx;
@@ -217,5 +218,12 @@ public class Jet extends EntityRole {
         if (y >= -0.5 * height && y <= Director.HEIGHT - height + 0.5 * height) y += Vy;
         if (y > Director.HEIGHT - height + 0.5 * height) y = Director.HEIGHT - height + 0.5 * height;
     }
+    public void fireblade(){
+        long now = System.currentTimeMillis();
+        if(now - lastBladeTime < bladeCooldown) return;
+        lastBladeTime = now;
+        bladeskill.activateBlade(this, GC);
+    }
 }
+
 
