@@ -14,6 +14,7 @@ import skill.bladeskill;
 import utils.KeyProcessor;
 import utils.MouseTracker;
 import utils.Team;
+import javafx.scene.media.AudioClip;
 
 import java.security.Key;
 
@@ -49,6 +50,9 @@ public class Jet extends EntityRole { // 飛機類（玩家/敵人），繼承 E
     float Vx = 0;
     float Vy = 0;
     private float Ax = 0, Ay = 0;
+
+    private static final AudioClip fireSound = new AudioClip(Jet.class.getResource("/Audio/basicGunfire.wav").toExternalForm());
+    private static final AudioClip explosionSound = new AudioClip((Jet.class.getResource("/Audio/boom.wav").toExternalForm()));
 
     private final float ExplosionDuration = 1000;
     public boolean Exploded = false;
@@ -87,6 +91,9 @@ public class Jet extends EntityRole { // 飛機類（玩家/敵人），繼承 E
             return;
         } else if (!alive && team == Team.friend) { // 玩家死亡
             if (!Exploded) {
+                if (explosionframe == 0){
+                    explosionSound.play();
+                }
                 //System.out.println(System.currentTimeMillis() );
                 //System.out.println(lastExplosiontick);
                 if (System.currentTimeMillis() - lastExplosiontick >  ExplosionDuration / PlayerExplosion.length && explosionframe < PlayerExplosion.length) {
@@ -191,7 +198,10 @@ public class Jet extends EntityRole { // 飛機類（玩家/敵人），繼承 E
     public void Fire() {
         double centerX = x + width / 2;
         double centerY = y + height / 2;
-        double wingOffset = height * 0.25; // 机翼距中心偏移
+        double wingOffset = height * 0.25;// 机翼距中心偏移
+
+        fireSound.setVolume(1.0);
+        fireSound.play();
 
         // 上機翼（左翼，旋轉後）
         GC.bullets.add(new Bullet(centerX, centerY - 15 - wingOffset,0,8 ,GC, team));
