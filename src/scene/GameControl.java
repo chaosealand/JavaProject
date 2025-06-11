@@ -3,6 +3,9 @@ package scene;
 import Animation.SceneTransition;
 import Director.Director;
 import entity.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.Event;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
@@ -10,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import utils.*;
 
 import java.util.ArrayList;
@@ -30,6 +34,7 @@ public class GameControl { // 主遊戲畫面控制
     public List<Bullet> bullets = new ArrayList<>(); // 子彈列表
     public List<Jet> enemies = new ArrayList<>(); // 敵人列表
     public List<LaserBeam> LaserList = new ArrayList<>(); // 雷射光束列表
+    public List<Explosion> ExplosionList = new ArrayList<>(); // 爆炸效果列表
 
     public AnchorPane root; // 場景根節點
 
@@ -37,7 +42,7 @@ public class GameControl { // 主遊戲畫面控制
     private boolean gameWinTriggered = false;
 
     // 添加敌人管理
-    private EnemyManager enemyManager; // 敵人生成與管理
+    private EnemyManager enemyManager; // 敵人生成���管理
     private boolean bossSpawned = false;// 宣告 boss 是否已經生成過
 
     private long gameStartTime; // 游戏开始时间
@@ -53,7 +58,7 @@ public class GameControl { // 主遊戲畫面控制
     public void initialize (Stage stage) { // 遊戲初始化
         this.stage = stage;
         this.background = new Background(this);  // 設定背景（傳入自身作為參照）
-        this.root = new AnchorPane(); // 建立根節點
+        this.root = new AnchorPane(); // 建立根節���
 
         this.root.getChildren().add(background.mediaView); // 加入背景到畫面
         this.root.getChildren().add(canvas); // 加入畫布
@@ -117,26 +122,41 @@ public class GameControl { // 主遊戲畫面控制
 
                 }
             } else {
+
+                enemy.render(); // 🔧 確保爆炸動畫能播放！！
+
                 // ======= Boss 死亡即勝利判斷 =======
                 if (enemy instanceof BOSS && !gameWinTriggered) {
-                    gameWinTriggered = true;
-                    GameRunning = false;
-                    StatBoard.addSurvivedTime(getGameTime());
-                    StatBoard.addEnemyTakeDown(killcount- outofboundkill); // 增加擊殺數
-                    System.out.println("你擊敗了Boss，勝利！");
-                    javafx.application.Platform.runLater(() -> {
-                        Director.getInstance().ToGameWin(stage);
-                    });
-                }
+
+                                javafx.application.Platform.runLater(() -> {
+                                    Director.getInstance().ToGameWin(stage);
+
+                                    gameWinTriggered = true;
+                                    GameRunning = false; });
+
+
+
+                } // 使用 Platform.runLater 確保 JavaFX 主執行緒安全轉場
                 // ==================================
 
                 // 如果敌人死亡，增加分数并移除
                 if (enemy instanceof EnemyJet) {
-                    playerScore += ((EnemyJet) enemy).getScoreValue(); // 加分
+                    EnemyJet ej = (EnemyJet) enemy;
+                    if (!ej.isScoreGiven()) {
+                        playerScore += ej.getScoreValue();
+                        killcount += 1;
+                        ej.markScoreGiven(); // ✅ 標記分數已加過
+                    }
                 }
-                enemies.remove(i); // 刪除敵人
-                i--; // 保證下標正確
+                if(enemy.Exploded){
+                    enemies.remove(i); // 刪除敵人
+                    i--; // 保證下標正確
+                }
+
+
+
             }
+
         }
 
 
@@ -146,6 +166,11 @@ public class GameControl { // 主遊戲畫面控制
             LaserBeam L = LaserList.get(i);
             L.render();
         }
+        for (int i=0;i<ExplosionList.size();i++){ // 渲染雷射光束
+            Explosion E = ExplosionList.get(i);
+            E.render();
+        }
+
 
         // 渲染护盾效果（如果激活的话）
         utils.ShieldVisual.renderShield();

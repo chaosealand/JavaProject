@@ -7,6 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import scene.GameControl;
 import scene.MenuLogic;
+import utils.StatBoard;
 
 import java.io.IOException;
 
@@ -39,6 +40,7 @@ public class Director {
 
     public void ToMenu () throws IOException { //載入主菜單，還得再stage.show()才能切畫面
         MenuLogic.LoadMenu(stage);
+        StatBoard.reset();
     }
 
     public void ExitGame () { //關閉遊戲
