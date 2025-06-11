@@ -26,7 +26,7 @@ public class shield {
 
             PauseTransition disable = new PauseTransition(Duration.millis(5000));
             disable.setOnFinished(e -> {
-                player.undefeatable = false;
+                //player.undefeatable = false;
                 System.out.println("[盾] 玩家無敵結束！");
             });
             disable.play();
