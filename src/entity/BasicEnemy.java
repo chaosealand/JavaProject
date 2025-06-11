@@ -57,7 +57,10 @@ public class BasicEnemy extends EnemyJet { // 定義基礎敵人類別，繼承 
 
             double offsetangle =  angle + (Math.PI / 3 ) * random.nextDouble() - Math.PI/6; // 調整角度讓子彈有隨機散射
 
-            GC.bullets.add(new Bullet(centerX, centerY, -offsetangle, 4 ,GC, Team.enemy)); // 新增敵方子彈到子彈列表
+            if (x > GC.Player.getCenterX()) {
+                GC.bullets.add(new Bullet(centerX, centerY, -offsetangle, 4, GC, Team.enemy)); // 新增敵方子彈到子彈列表
+            }
+
             //GC.bullets.add(new SpikeBullet(centerX, centerY, -offsetangle ,0.5,GC, Team.enemy)); //（預留）可改成發射SpikeBullet
 
             // 更新最後攻擊時間
