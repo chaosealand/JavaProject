@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controller.GameOverController"
-            prefWidth="1920" prefHeight="1080.0">
+<AnchorPane prefHeight="1080.0" prefWidth="1920" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GameOverController">
 
    <children>
-      <Label layoutX="200" layoutY="100" text="GAME OVER">
-         <font>
-            <Font name="Arial Black" size="36"/>
-         </font>
-      </Label>
-
-      <Button fx:id="btnBackToMenu" layoutX="250" layoutY="200" text="回主選單" prefWidth="100"/>
+      <ImageView fitHeight="1080.0" fitWidth="1920.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Image/PlayerCrash.png" />
+         </image>
+      </ImageView>
+      <AnchorPane fx:id="Panel" layoutX="28.0" layoutY="31.0" prefHeight="611.0" prefWidth="611.0" style="-fx-background-color: #050401; -fx-background-radius: 25;">
+         <children>
+            <ImageView fx:id="GameResult" fitHeight="128.0" fitWidth="356.0" layoutX="128.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="ButtonToMenu" fitHeight="105.0" fitWidth="376.0" layoutX="118.0" layoutY="467.0" onMouseClicked="#btmClick" onMouseEntered="#btmEnter" onMouseExited="#btmExit" pickOnBounds="true" preserveRatio="true" />
+            <TextField fx:id="TakeDownLabel" alignment="CENTER" editable="false" layoutX="143.0" layoutY="175.0" prefHeight="80.0" prefWidth="329.0" style="-fx-background-color: #050505;-fx-text-fill: white;-fx-font-size: 20px;-fx-font-family: 'Orbitron'" />
+            <TextField fx:id="killcount" alignment="CENTER" editable="false" layoutX="250.0" layoutY="255.0" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #050505;-fx-text-fill: white;-fx-font-size: 20px;-fx-font-family: 'Orbitron';" />
+            <TextField fx:id="TimeLabel" alignment="CENTER" editable="false" layoutX="141.0" layoutY="306.0" prefHeight="80.0" prefWidth="329.0" style="-fx-background-color: #050505;-fx-text-fill: white;-fx-font-size: 20px;-fx-font-family: 'Orbitron';" />
+            <TextField fx:id="timecount" alignment="CENTER" editable="false" layoutX="252.0" layoutY="386.0" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #050505;-fx-text-fill: white;-fx-font-size: 20px;-fx-font-family: 'Orbitron';" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
