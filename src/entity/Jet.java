@@ -47,6 +47,9 @@ public class Jet extends EntityRole { // 飛機類（玩家/敵人），繼承 E
     private long lastShieldTime = 0;
     private boolean isDashing = false;
 
+    public boolean shieldAvailable = false; // 是否可以使用護盾
+    public boolean BladeAvailable = false; // 是否可以使用脈衝技能
+
     float Vx = 0;
     float Vy = 0;
     private float Ax = 0, Ay = 0;
@@ -85,6 +88,10 @@ public class Jet extends EntityRole { // 飛機類（玩家/敵人），繼承 E
 
     @Override
     public void render() { // 重寫渲染
+
+        shieldAvailable = System.currentTimeMillis() - lastShieldTime < shieldcooldown; // 如果護盾冷卻時間已過，則可以使用護盾
+        BladeAvailable = System.currentTimeMillis() - lastBladeTime < bladeCooldown; // 如果脈衝技能冷卻時間已過，則可以使用脈衝技能
+
          if (!alive && team == Team.friend) { // 玩家死亡
             if (!Exploded) {
                 if (explosionframe == 0){

@@ -215,8 +215,8 @@ public class EliteEnemy extends EnemyJet {
                 dy /= length;
 
                 // 创建一个主激光束和两个侧面的激光束
-                LaserBeam mainLaser = new LaserBeam(centerX, centerY,  GC, Team.enemy);
-                GC.LaserList.add(mainLaser);
+                //LaserBeam mainLaser = new LaserBeam(centerX, centerY,  GC, Team.enemy);
+                //GC.LaserList.add(mainLaser);
 
                 // 创建两个侧面激光束（左右各一个）
                 /*

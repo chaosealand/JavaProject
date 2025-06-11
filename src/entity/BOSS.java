@@ -40,7 +40,7 @@ public class BOSS extends EnemyJet {
         super(BossImage, x, y, 240, 260, gc);
         this.rightX = x;
         this.centerY = y;
-        this.health = 2;
+        this.health = 2500;
         this.scoreValue = 2000;
         this.lastPatternChangeTime = System.currentTimeMillis();
     }
@@ -142,7 +142,8 @@ public class BOSS extends EnemyJet {
                             double py = GC.Player.getCenterY();
                             if (px >= laserLeft && px <= laserLeft + laserWidth &&
                                     py >= laserY - laserHeight / 2 && py <= laserY + laserHeight / 2) {
-                                GC.Player.setAlive(false);
+
+                                GC.Player.setAlive(GC.Player.undefeatable? false : true);
                             }
                         }
                     }

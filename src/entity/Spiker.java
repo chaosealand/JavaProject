@@ -224,7 +224,7 @@ public class Spiker extends EnemyJet {
                     // 发射尖刺子弹
                     double randomangle = angle + (Math.PI / 3 ) * random.nextDouble() - Math.PI/6;
                     new SpikeBullet(getCenterX(), getCenterY(), randomangle, 1.0, GC, team);
-                    if (random.nextBoolean()) GC.LaserList.add(new LaserBeam(getCenterX(), getCenterY(),  GC, team));
+                    if (random.nextBoolean()) GC.LaserList.add(new LaserBeam(getCenterX()+10, getCenterY()+10,  GC, team,this));
                 }
                 lastAttackTime = System.currentTimeMillis(); // 更新上次攻击时间
                 // 更新连续射击计数
@@ -238,7 +238,7 @@ public class Spiker extends EnemyJet {
         // 检查Spiker是否在冲刺状态下到达边界
         if (currentState == STATE_RUSH ) {
             // 检查是否超出屏幕边界
-            if (x <= 0  || x > Director.WIDTH || y < -height || y > Director.HEIGHT) {
+            if (x <= 50  || x > Director.WIDTH || y < -height || y > Director.HEIGHT) {
                 // 冲刺状态下达到边界，直接自毁
                 setAlive(false);
                 GC.outofboundkill += 1 ;
@@ -257,7 +257,7 @@ public class Spiker extends EnemyJet {
             double dy = targetPlayerY - getCenterY();
             double targetx =  getCenterX() + 100 * dx ;
             double targetY =  getCenterY() + 100 * dy ;
-            GC.graphicsContext.strokeLine(getCenterX(), getCenterY(), targetPlayerX, targetPlayerY);
+            GC.graphicsContext.strokeLine(getCenterX(), getCenterY(), targetx, targetY);
         }
 
         // 渲染飞机

@@ -122,8 +122,8 @@ public class StrikerEnemy extends EnemyJet {
             if (player != null && player.isAlive()) {
                 // 创建一个指向玩家的激光
                     // 创建激光
-                    LaserBeam laser = new LaserBeam(centerX, centerY,  GC, Team.enemy);
-                    System.out.println("creating laser ");
+                    LaserBeam laser = new LaserBeam(centerX, centerY,  GC, Team.enemy, this);
+
                     GC.LaserList.add(laser);
                 }
             }
