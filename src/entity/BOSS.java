@@ -25,11 +25,11 @@ public class BOSS extends EnemyJet {
     private long patternWarningDuration = 1100;
 
     private long lastBulletTime = 0;
-    private long bulletInterval = 220;
+    private long bulletInterval = 300;
 
     private boolean laserActive = false;
     private long laserStartTime = 0;
-    private long laserDuration = 1200;
+    private long laserDuration = 1000;
 
 
     private Random random = new Random();

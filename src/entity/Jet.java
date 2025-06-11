@@ -3,11 +3,13 @@ package entity;
 import Director.Director;
 
 
-
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.geometry.Rectangle2D;
 
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.util.Duration;
 import scene.GameControl;
 import skill.bladeskill;
 import skill.bladeskill;
@@ -209,9 +211,12 @@ public class Jet extends EntityRole { // 飛機類（玩家/敵人），繼承 E
         fireSound.play();
 
         // 上機翼（左翼，旋轉後）
-        GC.bullets.add(new Bullet(centerX, centerY - 15 - wingOffset,0,8 ,GC, team));
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(200), e -> {
+            GC.bullets.add(new Bullet(centerX, centerY - 18 - wingOffset, 0, 8, GC, team));
+        }));
+        timeline.play();
         // 下機翼（右翼，旋轉後）
-        GC.bullets.add(new Bullet(centerX, centerY - 15 + wingOffset,0,8, GC, team));
+        GC.bullets.add(new Bullet(centerX, centerY - 18 + wingOffset,0,8, GC, team));
     }
 
     public void shieldopen(){
