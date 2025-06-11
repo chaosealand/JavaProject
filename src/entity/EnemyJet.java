@@ -3,7 +3,7 @@ package entity;
 import javafx.scene.image.Image;
 import scene.GameControl;
 import utils.Team;
-
+import entity.BasicEnemy;
 import java.util.Random;
 
 /**
@@ -21,6 +21,42 @@ public abstract class EnemyJet extends Jet {
     protected long dodgeCooldown = 5000; // 闪避冷却时间
     protected long lastDodgeTime = 0; // 上次闪避时间
     protected int damage = 10; // 攻击伤害
+
+    protected boolean scoreGiven = false;
+
+    public boolean isScoreGiven() {
+        return scoreGiven;
+    }
+
+    public void markScoreGiven() {
+        scoreGiven = true;
+    }
+
+    private final float ExplosionDuration = 1000;
+    private int explosionframe =0;
+    private long lastExplosiontick = 0;
+    private static final Image[] EnemyExplosion = {
+            new Image("Image/jet1-1.png"),
+            new Image("Image/jet1-2.png"),
+            new Image("Image/jet1-3.png"),
+            new Image("Image/jet1-4.png"),
+            new Image("Image/jet1-5.png"),
+            new Image("Image/jet1-6.png"),
+            new Image("Image/jet1-7.png"),
+            new Image("Image/jet1-8.png"),
+            new Image("Image/jet1-9.png"),
+            new Image("Image/jet1-10.png"),
+            new Image("Image/jet1-11.png"),
+            new Image("Image/jet1-12.png"),
+            new Image("Image/jet1-13.png"),
+            new Image("Image/jet1-14.png"),
+            new Image("Image/jet1-15.png"),
+            new Image("Image/jet1-16.png"),
+            new Image("Image/jet1-17.png"),
+            new Image("Image/jet1-18.png"),
+            new Image("Image/jet1-19.png"),
+            new Image("Image/jet1-20.png"),
+    };
 
     public EnemyJet(double x, double y, GameControl gc) {
         super(Jet.EnemyImage, x, y, Jet.EnemyWidth, Jet.EnemyHeight, gc, Team.enemy);
@@ -54,9 +90,24 @@ public abstract class EnemyJet extends Jet {
             // 渲染飞机
             super.render();
         } else if (!Exploded) {
-            // 处理爆炸动画等
-            super.render();
+            long now = System.currentTimeMillis();
+
+            if (now - lastExplosiontick >= ExplosionDuration / EnemyExplosion.length && explosionframe < EnemyExplosion.length) {
+                image = EnemyExplosion[explosionframe]; // 換幀
+                explosionframe++;
+                lastExplosiontick = now;
+            }
+
+            GC.graphicsContext.setGlobalAlpha(1.0);
+            super.render(); // 渲染爆炸幀
+
+            // 若所有幀播放完畢
+            if (explosionframe >= EnemyExplosion.length) {
+                Exploded = true;
+            }
+
         }
+
     }
 
     /**
@@ -162,6 +213,7 @@ public abstract class EnemyJet extends Jet {
     public void takeDamage(int damage) {
         health -= damage;
         if (health <= 0 && isAlive()) {
+
             setAlive(false);
         }
     }

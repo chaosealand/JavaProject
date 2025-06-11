@@ -1,5 +1,6 @@
 package skill;
 
+import entity.EnemyJet;
 import entity.EntityRole;
 import entity.Jet;
 import javafx.animation.KeyFrame;
@@ -25,8 +26,8 @@ public class bladeskill {
         double bladeY = player.getY() + player.getHeight() / 2 - 50;
 
         ImageView bladeView = new ImageView(bladeFrames[0]);
-        bladeView.setFitWidth(300);
-        bladeView.setFitHeight(300);
+        bladeView.setFitWidth(200);
+        bladeView.setFitHeight(200);
         bladeView.setLayoutX(bladeX);
         bladeView.setLayoutY(bladeY);
 
@@ -65,7 +66,7 @@ public class bladeskill {
                         enemies.getX() + enemies.getWidth() > bx &&
                         enemies.getY() < by + bh &&
                         enemies.getY() + enemies.getHeight() > by) {
-                    enemies.setAlive(false); // 直接死亡
+                        ((EnemyJet) enemies).takeDamage(2);
                 }
             }
 
