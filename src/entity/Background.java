@@ -24,6 +24,7 @@ public class Background {
     public void PlayMedia() {
         mediaPlayer.play();
     }
+
     public Background(GameControl GC) {
         media = new Media(getClass().getResource("/Video/background1.mp4").toExternalForm());
         mediaPlayer = new MediaPlayer(media);
@@ -33,5 +34,17 @@ public class Background {
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mediaView.setX(0);
         mediaView.setY(0);
+    }
+
+    public Background(String path) {
+        media = new Media(getClass().getResource(path).toExternalForm());
+        mediaPlayer = new MediaPlayer(media);
+        mediaView = new MediaView(mediaPlayer);
+        mediaView.setFitWidth(Director.WIDTH);
+        mediaView.setFitHeight(Director.HEIGHT);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mediaView.setX(0);
+        mediaView.setY(0);
+
     }
 }
