@@ -36,7 +36,7 @@ public class BOSS extends EnemyJet {
         super(Jet.EnemyImage, x, y, 160, 180, gc);
         this.rightX = x;
         this.centerY = y;
-        this.health = 320;
+        this.health = 270;
         this.scoreValue = 2000;
         this.lastPatternChangeTime = System.currentTimeMillis();
     }

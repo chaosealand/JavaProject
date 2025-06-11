@@ -60,7 +60,7 @@ public class EnemyManager {
     private void spawnEnemy() {
         // 如果屏幕上敌人数量已达上限，则不生成
         if (gameControl.enemies.size() >= maxEnemiesOnScreen) {
-            System.out.println( gameControl.enemies.size() + " enemies on screen, not spawning new enemy.");
+
             return;
         }
 
@@ -121,7 +121,7 @@ public class EnemyManager {
         if (newWave > wave) {
             wave = newWave;
             // 每波增加最大敌人数量，但限制在12个
-            maxEnemiesOnScreen = Math.min(12, 6 + wave / 2);
+            maxEnemiesOnScreen = Math.min(8, 6 + wave / 2);
         }
     }
 

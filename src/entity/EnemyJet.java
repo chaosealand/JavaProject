@@ -90,7 +90,7 @@ public abstract class EnemyJet extends Jet {
                 // 如果子弹足够近且正在接近，尝试闪避
                 if (distance < 100 && isApproaching(bullet)) {
                     // 随机决定是否闪避（概率增加难度）
-                    if (random.nextInt(100) < 15) { // 30%的概率闪避
+                    if (random.nextInt(100) < 1) { // 30%的概率闪避
                         performDodge(dx, dy);
                         lastDodgeTime = now;
                         break;
@@ -137,10 +137,9 @@ public abstract class EnemyJet extends Jet {
         }
 
         // 设置闪避移动
-        this.Vx = (float) (perpX * movementSpeed * 1); // 闪避速度是正常速度的3倍
-        this.Vy = (float) (perpY * movementSpeed * 1.4);
+        this.Vx = (float) (perpX * movementSpeed * 3); // 闪避速度是正常速度的3倍
+        this.Vy = (float) (perpY * movementSpeed * 3);
 
-        System.out.println("Performing dodge: " + this.Vx + ", " + this.Vy);
 
         // 设置闪避状态
         isDodging = true;
@@ -153,7 +152,7 @@ public abstract class EnemyJet extends Jet {
                     isDodging = false;
                 }
             },
-            300 // 500毫秒后恢复正常移动
+            200 // 500毫秒后恢复正常移动
         );
     }
 

@@ -114,7 +114,7 @@ public class GameControl { // 主遊戲畫面控制
                 if (Player.isAlive() && !Player.undefeatable && Player.getContour().intersects(enemy.getContour())) {
                     Player.setAlive(false); // 玩家死亡
                     enemy.setAlive(false); // 敵人死亡
-                    System.out.println("Player collided with enemy!"); // 印出訊息
+
                 }
             } else {
                 // ======= Boss 死亡即勝利判斷 =======

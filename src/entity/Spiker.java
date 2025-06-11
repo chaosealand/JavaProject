@@ -1,6 +1,8 @@
 package entity;
 
 import Director.Director;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import scene.GameControl;
@@ -209,23 +211,23 @@ public class Spiker extends EnemyJet {
                 // 根据当前状态选择子弹类型
                 if (currentState == STATE_NORMAL_SHOOT) {
                     // 发射普通子弹
-                    new Bullet(getCenterX(), getCenterY(), angle, GC, team);
+                    Timeline timeline = new Timeline(
+                        new KeyFrame(javafx.util.Duration.millis(35), e -> {
+                                double randomangle = angle + (Math.PI / 3 ) * random.nextDouble() - Math.PI/6;
+                                new Bullet(getCenterX(), getCenterY(), randomangle, GC, team);
+                        })
+                    );
+                    timeline.setCycleCount(2);
+                    timeline.play();
+
                 } else {
                     // 发射尖刺子弹
-                    new SpikeBullet(getCenterX(), getCenterY(), angle, 1.0, GC, team);
+                    double randomangle = angle + (Math.PI / 3 ) * random.nextDouble() - Math.PI/6;
+                    new SpikeBullet(getCenterX(), getCenterY(), randomangle, 1.0, GC, team);
                 }
-
+                lastAttackTime = System.currentTimeMillis(); // 更新上次攻击时间
                 // 更新连续射击计数
-                consecutiveShots++;
 
-                // 如果还未达到最大连续射击次数，减少冷却时间
-                if (consecutiveShots < MAX_CONSECUTIVE_SHOTS) {
-                    lastAttackTime = System.currentTimeMillis() - attackCooldown + 300; // 300ms后发射第二发子弹
-                } else {
-                    // 重置连续射击计数并设置正常冷却
-                    consecutiveShots = 0;
-                    lastAttackTime = System.currentTimeMillis();
-                }
             }
         }
     }
@@ -233,7 +235,7 @@ public class Spiker extends EnemyJet {
     @Override
     public void render() {
         // 检查Spiker是否在冲刺状态下到达边界
-        if (currentState == STATE_RUSH && !isWarning) {
+        if (currentState == STATE_RUSH ) {
             // 检查是否超出屏幕边界
             if (x <= 0  || x > Director.WIDTH || y < -height || y > Director.HEIGHT) {
                 // 冲刺状态下达到边界，直接自毁
@@ -248,6 +250,10 @@ public class Spiker extends EnemyJet {
             // 绘制警示线，从Spiker指向目标位置
             GC.graphicsContext.setStroke(Color.YELLOW);
             GC.graphicsContext.setLineWidth(3);
+            double dx = targetPlayerX - getCenterX();
+            double dy = targetPlayerY - getCenterY();
+            double targetx =  getCenterX() + 100 * dx ;
+            double targetY =  getCenterY() + 100 * dy ;
             GC.graphicsContext.strokeLine(getCenterX(), getCenterY(), targetPlayerX, targetPlayerY);
         }
 
