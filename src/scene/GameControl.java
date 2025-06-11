@@ -10,10 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import utils.FrameUpdater;
-import utils.KeyProcessor;
-import utils.MouseTracker;
-import utils.Team;
+import utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +31,7 @@ public class GameControl { // 主遊戲畫面控制
     public List<Jet> enemies = new ArrayList<>(); // 敵人列表
     public List<LaserBeam> LaserList = new ArrayList<>(); // 雷射光束列表
 
-    public StackPane root; // 場景根節點
+    public AnchorPane root; // 場景根節點
 
     public Boolean GameRunning = false; // 遊戲運行狀態
     private boolean gameWinTriggered = false;
@@ -45,6 +42,9 @@ public class GameControl { // 主遊戲畫面控制
 
     private long gameStartTime; // 游戏开始时间
     private int playerScore = 0; // 玩家分數
+
+    public int killcount = 0 ;
+    public int outofboundkill = 0 ;
     // EnemyManager.java
     public void spawnBoss() {
         BOSS boss = new BOSS(1500, 100, this);
@@ -53,7 +53,7 @@ public class GameControl { // 主遊戲畫面控制
     public void initialize (Stage stage) { // 遊戲初始化
         this.stage = stage;
         this.background = new Background(this);  // 設定背景（傳入自身作為參照）
-        this.root = new StackPane(); // 建立根節點
+        this.root = new AnchorPane(); // 建立根節點
 
         this.root.getChildren().add(background.mediaView); // 加入背景到畫面
         this.root.getChildren().add(canvas); // 加入畫布
@@ -121,6 +121,8 @@ public class GameControl { // 主遊戲畫面控制
                 if (enemy instanceof BOSS && !gameWinTriggered) {
                     gameWinTriggered = true;
                     GameRunning = false;
+                    StatBoard.addSurvivedTime(getGameTime());
+                    StatBoard.addEnemyTakeDown(killcount- outofboundkill); // 增加擊殺數
                     System.out.println("你擊敗了Boss，勝利！");
                     javafx.application.Platform.runLater(() -> {
                         Director.getInstance().ToGameWin(stage);
@@ -150,7 +152,8 @@ public class GameControl { // 主遊戲畫面控制
 
         if (!Player.isAlive() && Player.Exploded) { // 玩家死亡且爆炸動畫完成
             GameRunning = false; // 結束遊戲
-
+            StatBoard.addSurvivedTime(getGameTime());
+            StatBoard.addEnemyTakeDown(killcount- outofboundkill); // 增加擊殺數
             // 使用 Platform.runLater 確保 JavaFX 主執行緒安全轉場
             javafx.application.Platform.runLater(() -> {
                 Director.getInstance().ToGameOver(stage); // 轉到遊戲結束畫面
@@ -168,13 +171,6 @@ public class GameControl { // 主遊戲畫面控制
         return playerScore; // 回傳分數
     }
 
-    // 不再使用该方法，由EnemyManager接管敌人生成
-    // public void initEnemy(){//初始化敵人的位置
-    //    for(int i = 0; i<6; i++){
-    //        Jet enemy = new Jet(Jet.EnemyImage,500+i*200, 400, Jet.EnemyWidth,Jet.EnemyHeight,this,Team.enemy);
-    //        enemies.add(enemy);
-    //    }
-    // }
 
     public void clear() { // 遊戲重設與資源回收
         stage.removeEventHandler(KeyEvent.KEY_PRESSED, keyProcessor); // 移除鍵盤事件

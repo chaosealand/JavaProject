@@ -37,6 +37,8 @@ public class BasicEnemy extends EnemyJet { // 定義基礎敵人類別，繼承 
 
         // 如果飛出螢幕底部，設為死亡
         if (x < 0) { // 超出畫面左界
+            GC.outofboundkill += 1; // 增加出界死亡計數
+
             setAlive(false); // 設為死亡
         }
     }

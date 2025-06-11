@@ -22,7 +22,7 @@ public class Jet extends EntityRole { // 飛機類（玩家/敵人），繼承 E
     public static final Image jetImage = new Image("/Image/JetImage.png");
     public static final Image JetImageLeft = new Image("/Image/JetImageLeft.png");
     public static final Image JetImageRight = new Image("/Image/JetImageRight.png");
-    public static final Image EnemyImage = new Image("/Image/PlayerJet.png");
+    public static final Image EnemyImage = new Image("/Image/Enemy1.png");
 
 
     public static final double PlayerWidth = 120, PlayerHeight = 144;
@@ -46,7 +46,8 @@ public class Jet extends EntityRole { // 飛機類（玩家/敵人），繼承 E
     private long lastShieldTime = 0;
     private boolean isDashing = false;
 
-    private float Vx = 0, Vy = 0;
+    float Vx = 0;
+    float Vy = 0;
     private float Ax = 0, Ay = 0;
 
     private final float ExplosionDuration = 1000;
@@ -82,6 +83,7 @@ public class Jet extends EntityRole { // 飛機類（玩家/敵人），繼承 E
     public void render() { // 重寫渲染
         if (!alive && team == Team.enemy) { // 敵人死亡：從列表移除
             GC.enemies.remove(this);
+            GC.killcount += 1; // 增加擊殺數;
             return;
         } else if (!alive && team == Team.friend) { // 玩家死亡
             if (!Exploded) {

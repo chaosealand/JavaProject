@@ -240,6 +240,8 @@ public class Spiker extends EnemyJet {
             if (x <= 0  || x > Director.WIDTH || y < -height || y > Director.HEIGHT) {
                 // 冲刺状态下达到边界，直接自毁
                 setAlive(false);
+                GC.outofboundkill += 1 ;
+
                 drawWarningLine = false;
                 return;
             }
