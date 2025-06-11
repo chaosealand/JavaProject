@@ -1,5 +1,7 @@
 package Director;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -48,6 +50,26 @@ public class Director {
         GC = gc1;
         gc1.initialize(stage);
         stage.show();
+    }
+    public void ToGameOver(Stage stage) {
+        try {
+            //FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameOver.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Victory.fxml"));
+            Parent root = loader.load();
+
+            // 使用 SceneTransition 類添加淡入淡出效果
+            // 如果場景已經存在，則使用淡入淡出效果
+            if (stage.getScene() != null) {
+                Animation.SceneTransition.SceneTransition(stage.getScene(), root, 2.0); // 2秒鐘的轉換時間
+            } else {
+                // 如果沒有現有場景，則創建一個新場景並直接顯示
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

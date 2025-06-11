@@ -1,6 +1,5 @@
 package entity;
 
-import javafx.scene.Group;
 import javafx.scene.image.Image;
 import scene.GameControl;
 import utils.Team;
@@ -10,6 +9,8 @@ import java.util.HashMap;
 public abstract class EntityRole extends Entity{
 
     boolean alive = true;
+    public boolean undefeatable = false; //設定飛機無敵狀態
+    public long undefeatableTimeLast = 0; //設定飛機剩餘無敵時間
     Team team;
     Map<String, Image> imageMap = new HashMap<>();
 
