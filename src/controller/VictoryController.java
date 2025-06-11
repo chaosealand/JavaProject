@@ -285,7 +285,9 @@ public class VictoryController {
 
                 // 显示具体的数字
                 killcount.setText(String.valueOf(utils.StatBoard.getkills()));
-                timecount.setText(String.valueOf(utils.StatBoard.getSurvivedTime()));
+                int survialminute = utils.StatBoard.getSurvivedTime() / 60;
+                int survialsecond = utils.StatBoard.getSurvivedTime() % 60;
+                timecount.setText( String.format("%02d:%02d", survialminute, survialsecond));
             });
 
             // 启动统计动画

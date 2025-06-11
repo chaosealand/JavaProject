@@ -124,26 +124,14 @@ public class GameControl { // 主遊戲畫面控制
             } else {
                 // ======= Boss 死亡即勝利判斷 =======
                 if (enemy instanceof BOSS && !gameWinTriggered) {
-                    StatBoard.addSurvivedTime(getGameTime());
-                    StatBoard.addEnemyTakeDown(killcount- outofboundkill); // 增加���殺數
-                    Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, e -> {
-                        // 2秒後轉到勝利畫面
-                        ((BOSS) enemy).deathblow();
-                        }) , new KeyFrame(Duration.seconds(2), e -> {
-                           ;
-                            }
-                        ));
-                    timeline.setCycleCount(1); // 只執行一次
-                    timeline.setOnFinished( actionEvent -> {
+
                                 javafx.application.Platform.runLater(() -> {
                                     Director.getInstance().ToGameWin(stage);
 
                                     gameWinTriggered = true;
-                                    GameRunning = false;
+                                    GameRunning = false; });
 
-                                });
-                    });
-                    timeline.play();
+
 
                 } // 使用 Platform.runLater 確保 JavaFX 主執行緒安全轉場
                 // ==================================

@@ -193,7 +193,9 @@ public class GameOverController {
             timeline.setOnFinished(e-> {
                 // 在这里可以添加其他操作，比如显示按钮等
                 killcount.setText(String.valueOf(utils.StatBoard.getkills()));
-                timecount.setText(String.valueOf(utils.StatBoard.getSurvivedTime()));
+                int survialminute = utils.StatBoard.getSurvivedTime() / 60;
+                int survialsecond = utils.StatBoard.getSurvivedTime() % 60;
+                timecount.setText( String.format("%02d:%02d", survialminute, survialsecond));
             });
             timeline.play();
         }
