@@ -15,6 +15,7 @@ public class Bullet extends EntityRole{ // 子彈類別，繼承 EntityRole
     public boolean ImpactCheck(Jet jet){ // 檢查與玩家/敵機碰撞
         if(jet != null && getContour().intersects(jet.getContour()) && this.team != jet.team && !jet.undefeatable){
             if (jet instanceof EnemyJet) {
+                GC.ExplosionList.add (new Explosion(jet.getCenterX(), jet.getCenterY(), GC ,jet)); // 敵機被打中，產生爆炸
                 ((EnemyJet) jet).takeDamage(20); // 這裡 10 是子彈傷害，可以根據需要調整
             } else {
                 jet.setAlive(false); // 例如玩家被敵人打到，直接死
