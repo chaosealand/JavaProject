@@ -15,6 +15,7 @@ public class LaserBeam extends Entity{ // 雷射光束類，繼承 Entity
     private static final Color Alert = Color.YELLOW ; // 警告顏色（黃色）
     private static final Color Attack = Color.RED; // 攻擊顏色（紅色）
     private static final int LaserRemainFrame = 35; // 雷射持續幀數
+    Entity e ;
     // 使用静态初始化块预加载图片，并添加错误处理
     private static Image reddot; // 紅點圖片
     static {
@@ -27,9 +28,10 @@ public class LaserBeam extends Entity{ // 雷射光束類，繼承 Entity
     }
     private Bullet bullet; // 內部生成的子彈
     private Team team ; // 隊伍
-    public LaserBeam(double x, double y, GameControl GC , Team t) { // 建構子
+    public LaserBeam(double x, double y, GameControl GC , Team t , Entity e) { // 建構子
         super(x, y, GC); // 調用父類建構子
         team = t ; // 設定隊伍
+        this.e = e ;
     }
 
     int AlertInterval = 120 ; // unit : frames // 警告階段持續幀數
@@ -52,6 +54,8 @@ public class LaserBeam extends Entity{ // 雷射光束類，繼承 Entity
             GC.graphicsContext.strokeLine(x,y,BeamDestinationX, BeamDestinationY); // 畫警告線
 
             counter++ ;
+            x = e.x;
+            y = e.y ;
         }
         else if (counter == AlertInterval){
             Activated = true  ; // 進入攻擊階段
