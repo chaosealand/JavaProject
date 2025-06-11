@@ -85,11 +85,7 @@ public class Jet extends EntityRole { // 飛機類（玩家/敵人），繼承 E
 
     @Override
     public void render() { // 重寫渲染
-        if (!alive && team == Team.enemy) { // 敵人死亡：從列表移除
-            GC.enemies.remove(this);
-            GC.killcount += 1; // 增加擊殺數;
-            return;
-        } else if (!alive && team == Team.friend) { // 玩家死亡
+         if (!alive && team == Team.friend) { // 玩家死亡
             if (!Exploded) {
                 if (explosionframe == 0){
                     explosionSound.play();
@@ -108,8 +104,8 @@ public class Jet extends EntityRole { // 飛機類（玩家/敵人），繼承 E
             }
 
 
-
         }
+        GC.graphicsContext.setGlobalAlpha(1.0); // 每次繪圖前強制恢復完全不透明
         super.render();
     }
 
