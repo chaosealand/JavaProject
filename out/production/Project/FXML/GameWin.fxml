@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Button?>
+<VBox spacing="20" alignment="CENTER" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.GameWinController">
+   <Text fx:id="winMessage" text="You Win!"/>
+   <Button fx:id="btnRestart" text="Restart" onAction="#onRestartClicked"/>
+   <Button fx:id="btnMenu" text="Menu" onAction="#onMenuClicked"/>
+</VBox>

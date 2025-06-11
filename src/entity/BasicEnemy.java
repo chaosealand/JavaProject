@@ -12,6 +12,7 @@ public class BasicEnemy extends EnemyJet { // 定義基礎敵人類別，繼承 
 
     private static final Image enemyImage = new Image("Image/Enemy1.png"); // 替換為實際圖片路徑
 
+
     public BasicEnemy(double x, double y, GameControl gc) { // 建構子，指定初始座標與遊戲控制器
         super(x, y, gc); // 調用父類別建構子
         // 基本敵人參數設定
